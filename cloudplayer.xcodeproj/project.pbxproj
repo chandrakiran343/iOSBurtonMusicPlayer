@@ -17,10 +17,10 @@
 		8A47AC1229D0D8920049CEB7 /* DownloadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A47AC1129D0D8920049CEB7 /* DownloadViewController.swift */; };
 		8AA991F029D14E8E002DFBA8 /* SwiftyDropbox in Frameworks */ = {isa = PBXBuildFile; productRef = 8AA991EF29D14E8E002DFBA8 /* SwiftyDropbox */; };
 		8AA991F329D14F73002DFBA8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA991F229D14F73002DFBA8 /* LoginViewController.swift */; };
+		8AA991FA29D16F25002DFBA8 /* CollectionViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA991F929D16F25002DFBA8 /* CollectionViewTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8A47ABEF29D0D6480049CEB7 /* cloudplayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = cloudplayer.app; path = "/Users/chandrakiran/Desktop/cloudplayer/build/Debug-iphoneos/cloudplayer.app"; sourceTree = "<absolute>"; };
 		8A47ABF229D0D6480049CEB7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8A47ABF429D0D6480049CEB7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		8A47ABF629D0D6480049CEB7 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
@@ -31,6 +31,8 @@
 		8A47AC0E29D0D8840049CEB7 /* UploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadViewController.swift; sourceTree = "<group>"; };
 		8A47AC1129D0D8920049CEB7 /* DownloadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadViewController.swift; sourceTree = "<group>"; };
 		8AA991F229D14F73002DFBA8 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		8AA991F929D16F25002DFBA8 /* CollectionViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewTableViewCell.swift; sourceTree = "<group>"; };
+		8ADBFCD129D1BD5200331993 /* cloudplayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cloudplayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,12 +51,17 @@
 			isa = PBXGroup;
 			children = (
 				8A47ABF129D0D6480049CEB7 /* cloudplayer */,
+				8ADBFCD129D1BD5200331993 /* cloudplayer.app */,
 			);
 			sourceTree = "<group>";
 		};
 		8A47ABF129D0D6480049CEB7 /* cloudplayer */ = {
 			isa = PBXGroup;
 			children = (
+				8AA991F829D16EC8002DFBA8 /* Managers */,
+				8AA991F729D16E88002DFBA8 /* Models */,
+				8AA991F629D16E68002DFBA8 /* ViewModels */,
+				8AA991F529D16E60002DFBA8 /* Views */,
 				8A47AC0929D0D83C0049CEB7 /* Controllers */,
 				8A47ABF229D0D6480049CEB7 /* AppDelegate.swift */,
 				8A47ABF429D0D6480049CEB7 /* SceneDelegate.swift */,
@@ -77,6 +84,35 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		8AA991F529D16E60002DFBA8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8AA991F929D16F25002DFBA8 /* CollectionViewTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8AA991F629D16E68002DFBA8 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		8AA991F729D16E88002DFBA8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		8AA991F829D16EC8002DFBA8 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -97,7 +133,7 @@
 				8AA991EF29D14E8E002DFBA8 /* SwiftyDropbox */,
 			);
 			productName = cloudplayer;
-			productReference = 8A47ABEF29D0D6480049CEB7 /* cloudplayer.app */;
+			productReference = 8ADBFCD129D1BD5200331993 /* cloudplayer.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -154,6 +190,7 @@
 			files = (
 				8AA991F329D14F73002DFBA8 /* LoginViewController.swift in Sources */,
 				8A47ABF729D0D6480049CEB7 /* MainTabBarViewController.swift in Sources */,
+				8AA991FA29D16F25002DFBA8 /* CollectionViewTableViewCell.swift in Sources */,
 				8A47AC0F29D0D8840049CEB7 /* UploadViewController.swift in Sources */,
 				8A47ABF329D0D6480049CEB7 /* AppDelegate.swift in Sources */,
 				8A47ABF529D0D6480049CEB7 /* SceneDelegate.swift in Sources */,

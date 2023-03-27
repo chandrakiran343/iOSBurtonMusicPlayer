@@ -32,7 +32,8 @@ class MainTabBarViewController: UITabBarController {
         tabBar.tintColor = .label
         
         setViewControllers([vc1,vc2,vc3], animated: true)
-
+        
+//        MainTabBarViewController().viewControllers = [SearchBarViewController()]	
     }
 
 }
