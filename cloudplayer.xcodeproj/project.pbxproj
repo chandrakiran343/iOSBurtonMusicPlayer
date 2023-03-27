@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,6 +15,8 @@
 		8A47AC0B29D0D86E0049CEB7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A47AC0A29D0D86E0049CEB7 /* HomeViewController.swift */; };
 		8A47AC0F29D0D8840049CEB7 /* UploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A47AC0E29D0D8840049CEB7 /* UploadViewController.swift */; };
 		8A47AC1229D0D8920049CEB7 /* DownloadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A47AC1129D0D8920049CEB7 /* DownloadViewController.swift */; };
+		8AA991F029D14E8E002DFBA8 /* SwiftyDropbox in Frameworks */ = {isa = PBXBuildFile; productRef = 8AA991EF29D14E8E002DFBA8 /* SwiftyDropbox */; };
+		8AA991F329D14F73002DFBA8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA991F229D14F73002DFBA8 /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,7 @@
 		8A47AC0A29D0D86E0049CEB7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		8A47AC0E29D0D8840049CEB7 /* UploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadViewController.swift; sourceTree = "<group>"; };
 		8A47AC1129D0D8920049CEB7 /* DownloadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadViewController.swift; sourceTree = "<group>"; };
+		8AA991F229D14F73002DFBA8 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8AA991F029D14E8E002DFBA8 /* SwiftyDropbox in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,6 +62,7 @@
 				8A47ABFB29D0D6490049CEB7 /* Assets.xcassets */,
 				8A47ABFD29D0D6490049CEB7 /* LaunchScreen.storyboard */,
 				8A47AC0029D0D6490049CEB7 /* Info.plist */,
+				8AA991F229D14F73002DFBA8 /* LoginViewController.swift */,
 			);
 			path = cloudplayer;
 			sourceTree = "<group>";
@@ -88,6 +93,9 @@
 			dependencies = (
 			);
 			name = cloudplayer;
+			packageProductDependencies = (
+				8AA991EF29D14E8E002DFBA8 /* SwiftyDropbox */,
+			);
 			productName = cloudplayer;
 			productReference = 8A47ABEF29D0D6480049CEB7 /* cloudplayer.app */;
 			productType = "com.apple.product-type.application";
@@ -115,6 +123,9 @@
 				Base,
 			);
 			mainGroup = 8A47ABE629D0D6480049CEB7;
+			packageReferences = (
+				8AA991EE29D14E8E002DFBA8 /* XCRemoteSwiftPackageReference "SwiftyDropbox" */,
+			);
 			productRefGroup = 8A47ABE629D0D6480049CEB7;
 			projectDirPath = "";
 			projectRoot = "";
@@ -141,6 +152,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8AA991F329D14F73002DFBA8 /* LoginViewController.swift in Sources */,
 				8A47ABF729D0D6480049CEB7 /* MainTabBarViewController.swift in Sources */,
 				8A47AC0F29D0D8840049CEB7 /* UploadViewController.swift in Sources */,
 				8A47ABF329D0D6480049CEB7 /* AppDelegate.swift in Sources */,
@@ -338,6 +350,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		8AA991EE29D14E8E002DFBA8 /* XCRemoteSwiftPackageReference "SwiftyDropbox" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dropbox/SwiftyDropbox";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8AA991EF29D14E8E002DFBA8 /* SwiftyDropbox */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8AA991EE29D14E8E002DFBA8 /* XCRemoteSwiftPackageReference "SwiftyDropbox" */;
+			productName = SwiftyDropbox;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8A47ABE729D0D6480049CEB7 /* Project object */;
 }
