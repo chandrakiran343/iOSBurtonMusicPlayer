@@ -21,11 +21,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        if (DropboxClientsManager.authorizedClient == nil){
+        if (DropboxClientsManager.authorizedClient != nil){
             window?.rootViewController = LoginViewController()
-        }
-        else{
-            window?.rootViewController = MainTabBarViewController()
         }
         window?.makeKeyAndVisible()
     }

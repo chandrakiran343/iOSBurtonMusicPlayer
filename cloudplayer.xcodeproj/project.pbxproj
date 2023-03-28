@@ -18,6 +18,7 @@
 		8AA991F029D14E8E002DFBA8 /* SwiftyDropbox in Frameworks */ = {isa = PBXBuildFile; productRef = 8AA991EF29D14E8E002DFBA8 /* SwiftyDropbox */; };
 		8AA991F329D14F73002DFBA8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA991F229D14F73002DFBA8 /* LoginViewController.swift */; };
 		8AA991FA29D16F25002DFBA8 /* CollectionViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA991F929D16F25002DFBA8 /* CollectionViewTableViewCell.swift */; };
+		8AD5EAC029D360C700BB105E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD5EABF29D360C700BB105E /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		8A47AC1129D0D8920049CEB7 /* DownloadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadViewController.swift; sourceTree = "<group>"; };
 		8AA991F229D14F73002DFBA8 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		8AA991F929D16F25002DFBA8 /* CollectionViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewTableViewCell.swift; sourceTree = "<group>"; };
+		8AD5EABF29D360C700BB105E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		8ADBFCD129D1BD5200331993 /* cloudplayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cloudplayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -58,6 +60,7 @@
 		8A47ABF129D0D6480049CEB7 /* cloudplayer */ = {
 			isa = PBXGroup;
 			children = (
+				8AD5EABE29D360B600BB105E /* Resources */,
 				8AA991F829D16EC8002DFBA8 /* Managers */,
 				8AA991F729D16E88002DFBA8 /* Models */,
 				8AA991F629D16E68002DFBA8 /* ViewModels */,
@@ -111,6 +114,14 @@
 			children = (
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		8AD5EABE29D360B600BB105E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8AD5EABF29D360C700BB105E /* Extensions.swift */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -189,6 +200,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8AA991F329D14F73002DFBA8 /* LoginViewController.swift in Sources */,
+				8AD5EAC029D360C700BB105E /* Extensions.swift in Sources */,
 				8A47ABF729D0D6480049CEB7 /* MainTabBarViewController.swift in Sources */,
 				8AA991FA29D16F25002DFBA8 /* CollectionViewTableViewCell.swift in Sources */,
 				8A47AC0F29D0D8840049CEB7 /* UploadViewController.swift in Sources */,

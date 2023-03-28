@@ -9,30 +9,64 @@ import UIKit
 import SwiftyDropbox
 
 class LoginViewController: UIViewController {
-
+    
+    private var animated:Bool={
+        return false
+    }()
+    private let button: UIButton = {
+       let button = UIButton()
+        button.backgroundColor = .white
+        button.setTitle("Sign In with DropBox", for: .normal)
+        button.setTitleColor(.blue, for: .normal)
+        return button
+    }()
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemRed
+        
+        view.backgroundColor = .systemGreen
+        title = "Login with your DropBox account"
+        
+        
+        view.addSubview(button)
+        
+        button.addTarget(self, action: #selector(signIn), for: .touchUpInside)
         // Do any additional setup after loading the view.
     }
-    var hit = 0
     override func viewDidAppear(_ animated: Bool) {
+        self.animated = true
+        print("After appear",self.animated)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        print("before appear",self.animated)
+        self.animated = false
+    }
+    @objc func signIn() {
         if (DropboxClientsManager.authorizedClient == nil){
-            myButtonInControllerPressed()
+            if(self.animated){
+                myButtonInControllerPressed()
+            }
         }
         else{
-//            present(MainTabBarViewController(), animated: true)
-            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-               let sceneDelegate = windowScene.delegate as? SceneDelegate,
-               let window = sceneDelegate.window{
-                window.rootViewController = MainTabBarViewController()
-                window.makeKeyAndVisible()
+            if(self.animated){
+                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                   let sceneDelegate = windowScene.delegate as? SceneDelegate,
+                   let window = sceneDelegate.window{
+                    if(self.viewIfLoaded?.window != nil){
+                        window.rootViewController = MainTabBarViewController()
+                        window.makeKeyAndVisible()
+                    }
+                }
             }
-//            appDelegate.window?.rootViewController = MainTabBarViewController()
-//            self.tabBarController?.tabBar(MainTabBarViewController, animated: true)
-              
         }
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        button.frame = CGRect(x: 20, y: view.height - 60-view.safeAreaInsets.bottom,
+                              width: view.width - 40, height: 50)
+        
+    }
+    
     func myButtonInControllerPressed() {
         // OAuth 2 code flow with PKCE that grants a short-lived token with scopes, and performs refreshes of the token automatically.
         let scopeRequest = ScopeRequest(scopeType: .user, scopes: ["account_info.read"], includeGrantedScopes: false)
@@ -43,16 +77,5 @@ class LoginViewController: UIViewController {
             openURL: { (url: URL) -> Void in UIApplication.shared.open(url, options: [:], completionHandler: nil) },
             scopeRequest: scopeRequest
         )
-       
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
     }
 }
