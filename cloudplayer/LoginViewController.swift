@@ -13,57 +13,60 @@ class LoginViewController: UIViewController {
     private var animated:Bool={
         return false
     }()
-    private let button: UIButton = {
-       let button = UIButton()
-        button.backgroundColor = .white
-        button.setTitle("Sign In with DropBox", for: .normal)
-        button.setTitleColor(.blue, for: .normal)
-        return button
-    }()
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemGreen
-        title = "Login with your DropBox account"
         
+        title = "Login"
+        view.backgroundColor = .systemBackground
+//        self.navigationItem.largeTitleDisplayMode = .always
+//        let nv = UINavigationController(rootViewController: self)
+//        nv.navigationBar.prefersLargeTitles = true
+        
+        let button = UIButton()
+        button.backgroundColor = .white
+        button.setTitle("Sign In with DropBox", for: .normal)
+        button.setTitleColor(.blue, for: .normal)
+        button.frame = CGRect(x: 20, y: view.height - 60-view.safeAreaInsets.bottom,
+                              width: view.width - 40, height: 50)
+
+        button.addTarget(self, action: #selector(signIn), for: .touchUpInside)
         
         view.addSubview(button)
         
-        button.addTarget(self, action: #selector(signIn), for: .touchUpInside)
+        
         // Do any additional setup after loading the view.
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         self.animated = true
-        print("After appear",self.animated)
     }
+    
     override func viewWillAppear(_ animated: Bool) {
-        print("before appear",self.animated)
         self.animated = false
     }
+    
     @objc func signIn() {
+
         if (DropboxClientsManager.authorizedClient == nil){
             if(self.animated){
+            print("rip1")
                 myButtonInControllerPressed()
             }
         }
         else{
             if(self.animated){
-                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                   let sceneDelegate = windowScene.delegate as? SceneDelegate,
-                   let window = sceneDelegate.window{
-                    if(self.viewIfLoaded?.window != nil){
-                        window.rootViewController = MainTabBarViewController()
-                        window.makeKeyAndVisible()
-                    }
-                }
+                let maintab = MainTabBarViewController()
+                
+                let window = UIApplication.shared.windows.first
+                window?.rootViewController = maintab
+                window?.makeKeyAndVisible()
             }
         }
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        button.frame = CGRect(x: 20, y: view.height - 60-view.safeAreaInsets.bottom,
-                              width: view.width - 40, height: 50)
         
     }
     

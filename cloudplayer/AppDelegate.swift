@@ -17,10 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         DropboxClientsManager.setupWithAppKey("g6a1xtuli3pxot6")
         
-        let window = UIWindow(frame: UIScreen.main.bounds)
-    
-        window.rootViewController = LoginViewController()
-        window.makeKeyAndVisible()
         return true
     }
 //    

@@ -21,9 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        if (DropboxClientsManager.authorizedClient != nil){
-            window?.rootViewController = LoginViewController()
-        }
+        window?.rootViewController = LoginViewController()
         window?.makeKeyAndVisible()
     }
     
