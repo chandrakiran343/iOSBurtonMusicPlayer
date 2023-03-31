@@ -6,8 +6,20 @@
 //
 
 import UIKit
+import SwiftyDropbox
 
 class MainTabBarViewController: UITabBarController {
+    
+    @objc func logoutProcess(){
+        print("pressed logout")
+        DropboxClientsManager.unlinkClients()
+        let window = UIApplication.shared.windows.first
+        let nav = UINavigationController(rootViewController: LoginViewController())
+        nav.navigationBar.prefersLargeTitles = true
+        nav.viewControllers.first?.navigationItem.largeTitleDisplayMode = .always
+        window?.rootViewController = nav
+        window?.makeKeyAndVisible()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,6 +28,17 @@ class MainTabBarViewController: UITabBarController {
         let c1 = HomeViewController()
         let c2 = UploadViewController()
         let c3 = DownloadViewController()
+        
+        
+        let logout = UIButton()
+        logout.setTitle("Logout", for: .normal)
+        logout.setTitleColor(.red, for: .normal)
+        
+        logout.addTarget(self, action: #selector(logoutProcess), for: .touchUpInside)
+        
+        logout.frame = CGRect(x: view.width - view.safeAreaInsets.right - 80, y: 20, width: 80, height: 60)
+        
+        view.addSubview(logout)
         
         c1.navigationItem.largeTitleDisplayMode = .always
         c2.navigationItem.largeTitleDisplayMode = .always

@@ -18,8 +18,25 @@
 		8AA991F029D14E8E002DFBA8 /* SwiftyDropbox in Frameworks */ = {isa = PBXBuildFile; productRef = 8AA991EF29D14E8E002DFBA8 /* SwiftyDropbox */; };
 		8AA991F329D14F73002DFBA8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA991F229D14F73002DFBA8 /* LoginViewController.swift */; };
 		8AA991FA29D16F25002DFBA8 /* CollectionViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA991F929D16F25002DFBA8 /* CollectionViewTableViewCell.swift */; };
+		8AD3AB6129D78B630071EB02 /* MusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD3AB6029D78B630071EB02 /* MusicViewController.swift */; };
+		8AD3AB6629D78BCB0071EB02 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AD3AB6429D78BC40071EB02 /* AVFoundation.framework */; };
+		8AD3AB6729D78BCB0071EB02 /* AVFoundation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8AD3AB6429D78BC40071EB02 /* AVFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8AD5EAC029D360C700BB105E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD5EABF29D360C700BB105E /* Extensions.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8AD3AB6829D78BCB0071EB02 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8AD3AB6729D78BCB0071EB02 /* AVFoundation.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		8A47ABF229D0D6480049CEB7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -33,6 +50,8 @@
 		8A47AC1129D0D8920049CEB7 /* DownloadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadViewController.swift; sourceTree = "<group>"; };
 		8AA991F229D14F73002DFBA8 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		8AA991F929D16F25002DFBA8 /* CollectionViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewTableViewCell.swift; sourceTree = "<group>"; };
+		8AD3AB6029D78B630071EB02 /* MusicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicViewController.swift; sourceTree = "<group>"; };
+		8AD3AB6429D78BC40071EB02 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		8AD5EABF29D360C700BB105E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		8ADBFCD129D1BD5200331993 /* cloudplayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cloudplayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -42,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8AD3AB6629D78BCB0071EB02 /* AVFoundation.framework in Frameworks */,
 				8AA991F029D14E8E002DFBA8 /* SwiftyDropbox in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -54,6 +74,7 @@
 			children = (
 				8A47ABF129D0D6480049CEB7 /* cloudplayer */,
 				8ADBFCD129D1BD5200331993 /* cloudplayer.app */,
+				8AD3AB6329D78BC30071EB02 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -83,6 +104,7 @@
 				8A47AC0A29D0D86E0049CEB7 /* HomeViewController.swift */,
 				8A47AC0E29D0D8840049CEB7 /* UploadViewController.swift */,
 				8A47AC1129D0D8920049CEB7 /* DownloadViewController.swift */,
+				8AD3AB6029D78B630071EB02 /* MusicViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -116,6 +138,14 @@
 			path = Managers;
 			sourceTree = "<group>";
 		};
+		8AD3AB6329D78BC30071EB02 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8AD3AB6429D78BC40071EB02 /* AVFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8AD5EABE29D360B600BB105E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -134,6 +164,7 @@
 				8A47ABEB29D0D6480049CEB7 /* Sources */,
 				8A47ABEC29D0D6480049CEB7 /* Frameworks */,
 				8A47ABED29D0D6480049CEB7 /* Resources */,
+				8AD3AB6829D78BCB0071EB02 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -205,6 +236,7 @@
 				8AA991FA29D16F25002DFBA8 /* CollectionViewTableViewCell.swift in Sources */,
 				8A47AC0F29D0D8840049CEB7 /* UploadViewController.swift in Sources */,
 				8A47ABF329D0D6480049CEB7 /* AppDelegate.swift in Sources */,
+				8AD3AB6129D78B630071EB02 /* MusicViewController.swift in Sources */,
 				8A47ABF529D0D6480049CEB7 /* SceneDelegate.swift in Sources */,
 				8A47AC1229D0D8920049CEB7 /* DownloadViewController.swift in Sources */,
 				8A47AC0B29D0D86E0049CEB7 /* HomeViewController.swift in Sources */,

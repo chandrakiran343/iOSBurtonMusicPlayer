@@ -21,16 +21,33 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = LoginViewController()
-        window?.makeKeyAndVisible()
+        
+        if(DropboxClientsManager.authorizedClient == nil){
+            let nav = UINavigationController(rootViewController: LoginViewController())
+            nav.navigationBar.prefersLargeTitles = true
+            nav.viewControllers.first?.navigationItem.largeTitleDisplayMode = .always
+            window?.rootViewController = nav
+            window?.makeKeyAndVisible()
+        }
+        else{
+            let maintab = MainTabBarViewController()
+            self.window?.rootViewController = maintab
+            window?.makeKeyAndVisible()
+        }
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-         let oauthCompletion: DropboxOAuthCompletion = {
+        let oauthCompletion: DropboxOAuthCompletion = { [self] in
           if let authResult = $0 {
               switch authResult {
               case .success:
                   print("Success! User is logged into DropboxClientsManager.")
+                if let navig = self.window?.rootViewController as? UINavigationController{
+                    navig.setNavigationBarHidden(true, animated: false)
+                    navig.pushViewController(MainTabBarViewController(), animated: true)
+                    
+                    
+                }
               case .cancel:
                   print("Authorization flow was manually canceled by user!")
               case .error(_, let description):

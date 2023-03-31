@@ -10,28 +10,30 @@ import SwiftyDropbox
 
 class LoginViewController: UIViewController {
     
-    private var animated:Bool={
+    public var animated:Bool={
         return false
     }()
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        title = "Login"
+        	
         view.backgroundColor = .systemBackground
+        
 //        self.navigationItem.largeTitleDisplayMode = .always
-//        let nv = UINavigationController(rootViewController: self)
-//        nv.navigationBar.prefersLargeTitles = true
+//
+        title = "Burton Music player"
         
         let button = UIButton()
         button.backgroundColor = .white
         button.setTitle("Sign In with DropBox", for: .normal)
         button.setTitleColor(.blue, for: .normal)
-        button.frame = CGRect(x: 20, y: view.height - 60-view.safeAreaInsets.bottom,
+        button.frame = CGRect(x: 20, y: view.height - 100-view.safeAreaInsets.bottom,
                               width: view.width - 40, height: 50)
 
         button.addTarget(self, action: #selector(signIn), for: .touchUpInside)
-        
         view.addSubview(button)
         
         
@@ -50,17 +52,7 @@ class LoginViewController: UIViewController {
 
         if (DropboxClientsManager.authorizedClient == nil){
             if(self.animated){
-            print("rip1")
                 myButtonInControllerPressed()
-            }
-        }
-        else{
-            if(self.animated){
-                let maintab = MainTabBarViewController()
-                
-                let window = UIApplication.shared.windows.first
-                window?.rootViewController = maintab
-                window?.makeKeyAndVisible()
             }
         }
     }
@@ -70,6 +62,9 @@ class LoginViewController: UIViewController {
         
     }
     
+    
+    
+    
     func myButtonInControllerPressed() {
         // OAuth 2 code flow with PKCE that grants a short-lived token with scopes, and performs refreshes of the token automatically.
         let scopeRequest = ScopeRequest(scopeType: .user, scopes: ["account_info.read"], includeGrantedScopes: false)
@@ -77,7 +72,11 @@ class LoginViewController: UIViewController {
             UIApplication.shared,
             controller: self,
             loadingStatusDelegate: nil,
-            openURL: { (url: URL) -> Void in UIApplication.shared.open(url, options: [:], completionHandler: nil) },
+            openURL: { (url: URL) -> Void in UIApplication.shared.open(url, options: [:],
+                                                                       completionHandler: {success in
+                                                                        print("HI")
+                                                                       }
+            )},
             scopeRequest: scopeRequest
         )
     }

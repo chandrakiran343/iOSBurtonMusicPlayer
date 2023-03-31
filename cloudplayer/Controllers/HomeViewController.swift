@@ -25,11 +25,11 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
         return search
     }()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-//        searchBar.translatesAutoresizingMaskIntoConstraints = false
-//        view.addSubview(searchBar)
+        
         view.addSubview(homeFeed)
     
         
