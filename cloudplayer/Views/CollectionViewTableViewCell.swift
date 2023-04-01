@@ -6,27 +6,91 @@
 //
 
 import UIKit
+import SwiftyDropbox
+import AVFoundation
+
+struct Song{
+    let name: String
+    let artist: String?
+    let albumname: String?
+    let duration: String?
+    var albumArt: UIImage?
+    let url : String?
+}
+
+
 
 class CollectionViewTableViewCell: UITableViewCell {
     
     
-    static let identifier = "CollectionViewTableViewCell"
+    
+    
+    
+    static let identifier = "SongViewTableViewCell"
+    
+    private let songTitleLabel = UILabel()
+        private let artistNameLabel = UILabel()
+        private let albumNameLabel = UILabel()
+        private let durationLabel = UILabel()
+//    private var selected:Int = 0
+    var data: Data!
+    var name: String!
+//    private var audioplayer: AVAudioPlayer!
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-//        contentView.backgroundColor = .white
-//        contentView
-    }
+           super.init(style: style, reuseIdentifier: reuseIdentifier)
+           
+           // Configure subviews
+           songTitleLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+           artistNameLabel.font = UIFont.systemFont(ofSize: 14)
+           albumNameLabel.font = UIFont.systemFont(ofSize: 14)
+           durationLabel.font = UIFont.systemFont(ofSize: 14)
+           
+           // Add subviews
+           contentView.addSubview(songTitleLabel)
+           contentView.addSubview(artistNameLabel)
+           contentView.addSubview(albumNameLabel)
+           contentView.addSubview(durationLabel)
+           
+           // Set up constraints
+           songTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+           artistNameLabel.translatesAutoresizingMaskIntoConstraints = false
+           albumNameLabel.translatesAutoresizingMaskIntoConstraints = false
+           durationLabel.translatesAutoresizingMaskIntoConstraints = false
+           
+           NSLayoutConstraint.activate([
+               songTitleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+               songTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+               songTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+               
+               artistNameLabel.topAnchor.constraint(equalTo: songTitleLabel.bottomAnchor, constant: 4),
+               artistNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+               artistNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+               
+               albumNameLabel.topAnchor.constraint(equalTo: artistNameLabel.bottomAnchor, constant: 4),
+               albumNameLabel.leadingAnchor.constraint(equalTo:	 contentView.leadingAnchor, constant: 16),
+               albumNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+               
+               durationLabel.topAnchor.constraint(equalTo: albumNameLabel.bottomAnchor, constant: 4),
+               durationLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+               durationLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+               durationLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+           ])
+       }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+       
+       required init?(coder: NSCoder) {
+           fatalError("init(coder:) has not been implemented")
+       }
+       
+       // MARK: - Configure Cell
+       
+       func configure(song: Song) {
+           songTitleLabel.text = song.name
+           artistNameLabel.text = song.artist
+           albumNameLabel.text = song.albumname
+        durationLabel.text = "\(song.duration ?? "unavailable")"
+       }
    	
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
-    }
-
+    
 }

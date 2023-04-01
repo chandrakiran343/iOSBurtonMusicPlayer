@@ -67,7 +67,7 @@ class LoginViewController: UIViewController {
     
     func myButtonInControllerPressed() {
         // OAuth 2 code flow with PKCE that grants a short-lived token with scopes, and performs refreshes of the token automatically.
-        let scopeRequest = ScopeRequest(scopeType: .user, scopes: ["account_info.read"], includeGrantedScopes: false)
+        let scopeRequest = ScopeRequest(scopeType: .user, scopes: ["account_info.read","files.metadata.read","files.metadata.write","files.content.read"], includeGrantedScopes: false)
         DropboxClientsManager.authorizeFromControllerV2(
             UIApplication.shared,
             controller: self,
