@@ -35,10 +35,10 @@ class DownloadViewController: UIViewController {
 //            print("Error fetching local audio files: \(error.localizedDescription)")
 //        }
         // Start the search in the root directory
-let rootURL = try? fileManager.url(for: .downloadsDirectory, in: .localDomainMask, appropriateFor: nil, create: false) else {
-            print(audioFiles)
-               return audioFiles
-           }
+//        _ = try? fileManager.url(for: .downloadsDirectory, in: .localDomainMask, appropriateFor: nil, create: false); else {
+//            print(audioFiles)
+//               return audioFiles
+//           }
         
         
         

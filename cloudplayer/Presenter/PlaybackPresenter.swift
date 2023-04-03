@@ -63,10 +63,11 @@ final class PlaybackPresenter: playerDataSource{
         
         client?.files.getTemporaryLink(path: path).response{ response,error in
             if let link = response?.link{
-//                let task = URLSession.shared.downloadTask(with: URL(string: link))
+                let task = URLSession.shared.downloadTask(with: URL(string: link)!)
                 do{
                     let url = URL(string: link )
-                    self.audioplayer = try AVPlayer(url: url! )
+                    self.audioplayer = try AVPlayer(url: url!)
+                    self.audioplayer?.automaticallyWaitsToMinimizeStalling = false
                }
                catch let error{
                    print(error)

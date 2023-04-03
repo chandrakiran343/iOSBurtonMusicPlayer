@@ -157,10 +157,10 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
         let song:Song = filenames[indexPath.row]
         songName = song.name
 //        let queue = DispatchQueue(label: "download queue")
-        
         DispatchQueue.global(qos: .background).async{
             PlaybackPresenter.shared.downloadSong(name:song.name, path: song.url ?? "/")
         }
+        
         
         print(songName)
 //        Dispatch.main.async(){
