@@ -9,9 +9,15 @@ import UIKit
 
 class DownloadViewController: UIViewController {
     var tableView: UITableView = {
-        let table = UITableView(frame: .zero, style: .insetGrouped)
-        table.register(CollectionViewTableViewCell.self, forCellReuseIdentifier: CollectionViewTableViewCell.identifier)
-        return table
+        var table: UITableView?
+        if #available(iOS 13.0, *) {
+            table = UITableView(frame: .zero, style: .insetGrouped)
+        } else {
+            // Fallback on earlier versions
+            table = UITableView(frame: .zero)
+        }
+        table?.register(CollectionViewTableViewCell.self, forCellReuseIdentifier: CollectionViewTableViewCell.identifier)
+        return table!
     }()
     
     var audioFiles: [URL] = []

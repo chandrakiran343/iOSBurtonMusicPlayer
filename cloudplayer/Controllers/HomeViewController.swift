@@ -18,7 +18,13 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
     }()
     
     private let homeFeed : UITableView = {
-        let table = UITableView(frame: .zero, style: .insetGrouped)
+        var table:UITableView
+        if #available(iOS 13.0, *) {
+            table = UITableView(frame: .zero, style: .insetGrouped)
+        } else {
+            // Fallback on earlier versions
+            table = UITableView(frame: .zero)
+        }
         table.register(CollectionViewTableViewCell.self, forCellReuseIdentifier: CollectionViewTableViewCell.identifier)
         return table
     }()
@@ -71,7 +77,12 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        if #available(iOS 13.0, *) {
+            view.backgroundColor = .systemBackground
+        } else {
+            // Fallback on earlier versions
+            view.backgroundColor = .white
+        }
         
         
         view.addSubview(homeFeed)

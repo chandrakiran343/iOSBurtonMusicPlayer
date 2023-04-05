@@ -41,16 +41,26 @@ class MusicView: UIView {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = .systemFont(ofSize: 16, weight: .regular)
-        label.textColor = .secondaryLabel
+        if #available(iOS 13.0, *) {
+            label.textColor = .secondaryLabel
+        } else {
+            // Fallback on earlier versions
+            label.textColor = .cyan
+        }
 //        label.text = "calvin harris, rihanna"
         return label
     }()
     
     private let backbutton:UIButton={
         let button  = UIButton()
-        button.tintColor = .label
+        if #available(iOS 13.0, *) {
+            button.tintColor = .label
+        } else {
+            // Fallback on earlier versions
+            button.tintColor = .magenta
+        }
         let image = UIImage(systemName: "backward.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 34,weight: .regular))
-        button.setImage( image, for: .normal)
+//        button.setImage
         return button
     }()
     private let forwardbutton:UIButton={
