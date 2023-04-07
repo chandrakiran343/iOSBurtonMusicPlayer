@@ -13,6 +13,7 @@ protocol playerControlsDelegate: AnyObject {
     func playertappedpause(_ musicview: MusicView)
     func playertappedforward(_ musicview: MusicView)
     func playertappedbackward(_ musicview:MusicView)
+    func somethingWithDuration(_ musicview:MusicView)
 }
 
 struct titles{
@@ -23,9 +24,9 @@ class MusicView: UIView {
     
     weak var delegate: playerControlsDelegate?
     weak var dataSource: playerDataSource?
-    private let volumeSlider:UISlider = {
+    let durationSlider:UISlider = {
         let slider = UISlider()
-        slider.value = 0.5
+        slider.value = 0.0
         return slider
     }()
     
@@ -36,7 +37,12 @@ class MusicView: UIView {
 //        label.text = "this is what you came for"
         return label
     }()
-    
+    let durationLabel: UILabel! = {
+        return UILabel()
+    }()
+    let durationFinalLabel: UILabel! = {
+        return UILabel()
+    }()
     private var subtitle: UILabel={
         let label = UILabel()
         label.numberOfLines = 1
@@ -59,21 +65,51 @@ class MusicView: UIView {
             // Fallback on earlier versions
             button.tintColor = .magenta
         }
-        let image = UIImage(systemName: "backward.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 34,weight: .regular))
-//        button.setImage
+        let image: UIImage?
+        if #available(iOS 13.0, *) {
+            
+            image = UIImage(systemName: "backward.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 34,weight: .regular))
+        } else {
+            // Fallback on earlier versions
+            image = UIImage(named: "backward-arrows-couple")
+        }
+        button.setImage(image, for: .normal)
         return button
     }()
     private let forwardbutton:UIButton={
         let button  = UIButton()
-        button.tintColor = .label
-        let image = UIImage(systemName: "forward.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 34,weight: .regular))
+        if #available(iOS 13.0, *) {
+            button.tintColor = .label
+        } else {
+            // Fallback on earlier versions
+            button.tintColor = .clear
+        }
+        let image: UIImage?
+        if #available(iOS 13.0, *) {
+            image = UIImage(systemName: "forward.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 34,weight: .regular))
+        } else {
+            // Fallback on earlier versions
+            image = UIImage(named: "fast-forward")
+        }
         button.setImage( image, for: .normal)
         return button
     }()
-    private let playbutton:UIButton={
+        let playbutton:UIButton={
         let button  = UIButton()
-        button.tintColor = .label
-        let image = UIImage(systemName: "pause", withConfiguration: UIImage.SymbolConfiguration(pointSize: 34,weight: .regular))
+        if #available(iOS 13.0, *) {
+            button.tintColor = .label
+        } else {
+            // Fallback on earlier versions
+            button.tintColor = .clear
+        }
+        let image: UIImage?
+        if #available(iOS 13.0, *) {
+            image = UIImage(systemName: "pause", withConfiguration: UIImage.SymbolConfiguration(pointSize: 34,weight: .regular))
+        } else {
+            // Fallback on earlier versions
+            image = UIImage(named: "pause")
+            
+        }
         button.setImage( image, for: .normal)
         return button
     }()
@@ -85,11 +121,13 @@ class MusicView: UIView {
         backgroundColor = .clear
         addSubview(nameLabel)
         addSubview(subtitle)
-        addSubview(volumeSlider)
-        
+        addSubview(durationSlider)
+        addSubview(durationFinalLabel)
+        addSubview(durationLabel)
         addSubview(backbutton)
         addSubview(playbutton)
         addSubview(forwardbutton)
+        
         
         backbutton.addTarget(self, action: #selector(didtapback), for: .touchUpInside)
         forwardbutton.addTarget(self, action: #selector(didtapforward), for: .touchUpInside)
@@ -106,21 +144,29 @@ class MusicView: UIView {
     }
     @objc func didtappause(){
         delegate?.playertappedpause(self)
+//        self.playbutton.setImage(UIImage(named: image), for: .normal)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        nameLabel.frame = CGRect(x: 0, y: 20, width: width, height: 50)
-        subtitle.frame = CGRect(x: 0, y: nameLabel.bottom+10, width: width, height: 50)
         
-        volumeSlider.frame = CGRect(x: 10, y: subtitle.bottom+20, width: width-20, height: 44)
+        nameLabel.frame = CGRect(x: 0, y: 20, width: width, height: 50)
+        subtitle.frame = CGRect(x: 0, y: nameLabel.bottom, width: width, height: 30)
+        
+        durationSlider.frame = CGRect(x: 10, y: subtitle.bottom, width: width-20, height: 44)
         let buttonSize:CGFloat = 40
         
 //        playbutton.frame = CGRect(x: (width - buttonSize)/2, y: volumeSlider.bottom+30, width: buttonSize, height: buttonSize)
 //
 //        backbutton.frame = CGRect(x: playbutton.left - 80, y: playbutton.top, width: buttonSize, height: buttonSize)
 //        forwardbutton.frame = CGRect(x: playbutton.right + 80, y: playbutton.top, width: buttonSize, height: buttonSize)
-        playbutton.frame = CGRect(x: (width-buttonSize)/2, y: volumeSlider.bottom+20, width: buttonSize, height: buttonSize)
+        durationLabel.frame = CGRect(x: durationSlider.right-55,y: durationSlider.bottom, width:80 , height: 15)
+        durationFinalLabel.frame = CGRect(x: durationSlider.left,y: durationSlider.bottom, width:80 , height: 15)
+        
+        durationLabel.backgroundColor = .clear
+        durationFinalLabel.backgroundColor = .clear
+        self.delegate?.somethingWithDuration(self)
+        playbutton.frame = CGRect(x: (width-buttonSize)/2, y: durationSlider.bottom+25 - self.safeAreaInsets.bottom, width: buttonSize, height: buttonSize)
         backbutton.frame = CGRect(x: playbutton.left - 80 - buttonSize, y: playbutton.top, width: buttonSize, height: buttonSize)
         forwardbutton.frame = CGRect(x: playbutton.right + 80, y: playbutton.top, width: buttonSize, height: buttonSize)
     }

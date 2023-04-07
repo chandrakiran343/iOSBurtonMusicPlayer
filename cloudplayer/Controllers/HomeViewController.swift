@@ -23,7 +23,7 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
             table = UITableView(frame: .zero, style: .insetGrouped)
         } else {
             // Fallback on earlier versions
-            table = UITableView(frame: .zero)
+            table = UITableView(frame: .zero, style: .grouped)
         }
         table.register(CollectionViewTableViewCell.self, forCellReuseIdentifier: CollectionViewTableViewCell.identifier)
         return table
@@ -31,7 +31,7 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
     
     let data = ["hello", "kiloo","syboo"]
     
-    var filteredData: [String]!
+    var filteredData: [Song]!
     private let searchBar: UISearchBar = {
 //        let search = UISearchBar(frame: CGRect(x:0,y:0,width:100,height: 120))
         let search = UISearchBar()
@@ -42,29 +42,47 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
     
     func getFiles() {
         self.filenames = []
-        client?.files.listFolder(path: "").response{response,error in
+        listAudioFiles(path: "")
+    }
+    
+    func listAudioFiles(path:String){
+        client?.files.listFolder(path: path).response{response,error in
             if let response = response{
                 print(response)
                 for entry in response.entries{
                     
                     if(entry.name.hasSuffix("mp3") || entry.name.hasSuffix("m4a")){
                         print(entry.name)
-                        let song = Song(name: entry.name, artist:"Unknown", albumname: nil,duration: " " ,albumArt: nil,url:entry.pathLower ?? "/")
-                        self.filenames.append(song)
-                        self.homeFeed.reloadData()
-                    }
-                    
-//                    self.tableView.reload
+                        DispatchQueue.global(qos: .background) .async {
+                            self.client?.files.getTemporaryLink(path: entry.pathLower!).response{ response,error in
+                                        if let link = response?.link{
+                                            do{
+                                                let url = URL(string: link )!
+                                               let asset = AVAsset(url: url)
+                                                let rip = asset.metadata
+                                                let artworkdata = AVMetadataItem.metadataItems(from: rip, filteredByIdentifier: AVMetadataIdentifier.commonIdentifierArtwork)
+                                                var albumart: UIImage?
+                                                if(artworkdata.first != nil){
+                                                   
+                                                albumart = UIImage(data: (artworkdata.first?.dataValue)!)
+                                                }
+                                                
+                                                
+                                                let song = Song(name: entry.name, artist:"Unknown", albumname: nil,duration: " " ,albumArt: albumart,url:entry.pathLower ?? "/", downloadlink: url)
+                                                self.filenames.append(song)
+                                                self.homeFeed.reloadData()
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                for folder in response.entries where folder is Files.FolderMetadata{
+                    self.listAudioFiles(path: folder.pathLower!)
                 }
-                
-            }
-            else{
-                print("Api rippped")
-            }
-        }
-        
+                    }
+                }
     }
-    
     override func viewDidAppear(_ animated: Bool) {
         if let indexPath = homeFeed.indexPathForSelectedRow{
             homeFeed.deselectRow(at: indexPath, animated: true)
@@ -90,7 +108,7 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
         
         homeFeed.delegate = self
         homeFeed.dataSource = self
-//        searchBar.delegate = self.filenames
+        searchBar.delegate = self
 //        searchBar.dataSource = self.filenames
         homeFeed.tableHeaderView = searchBar
     
@@ -98,8 +116,7 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
 
         homeFeed.tableHeaderView?.frame.size.height = searchBar.frame.size.height
         
-        filteredData = data
-        
+        filteredData = filenames
         
         // Do any additional setup after loading the view.
     }
@@ -117,11 +134,12 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        filteredData = searchText.isEmpty ? data : data.filter{ (item: String)->Bool in
-            return item.range(of: searchText, options: .caseInsensitive,range: nil,locale: nil) != nil
+        filteredData = searchText.isEmpty ? filenames: filenames.filter{ (item: Song)->Bool in
+            return item.name.range(of: searchText, options: .caseInsensitive,range: nil,locale: nil) != nil
         }
+        print("debug point for search")
         // setup to handle index out of bounds error while no search results
-//        print(filteredData[0])
+        print(filteredData as Any)
 //        tableView.reloadData()
     }
 }
@@ -141,17 +159,27 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectionViewTableViewCell.identifier, for: indexPath) as? CollectionViewTableViewCell else {
             return UITableViewCell()
         }
-
+        if(indexPath.row < filenames.count){
         let song = filenames[indexPath.row]
-        print(indexPath.row)
+            
+            print(indexPath.row)
         cell.configure(song: song)
-        
+            
         
         cell.textLabel?.textAlignment = .natural
-        cell.backgroundColor = .systemBlue
+            cell.textLabel?.textColor = .white
+//        cell.backgroundColor = UIColor(red: 0.13, green: 0.13, blue: 0.13, alpha: 1.0)
+            	
 
         return cell
+        }
+        else{
+            print(indexPath.row)
+            print("ripped")
+        }
+        return cell
     }
+    
     
     
     
@@ -165,11 +193,19 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var songName: String = ""
-        let song:Song = filenames[indexPath.row]
-        songName = song.name
-//        let queue = DispatchQueue(label: "download queue")
-        DispatchQueue.global(qos: .background).async{
-            PlaybackPresenter.shared.downloadSong(name:song.name, path: song.url ?? "/")
+        let song: Song?
+        if (indexPath.row < filenames.count){
+            song = filenames[indexPath.row]
+            songName = song!.name
+    //        let queue = DispatchQueue(label: "download queue")
+//            DispatchQueue.global(qos: .background).async{
+//                PlaybackPresenter.shared.downloadSong(name:song!.name, path: song?.url ?? "/")
+//            }
+            PlaybackPresenter.shared.startPlayBack(from: self,track: song!)
+        }
+        else{
+            print(indexPath.row)
+            print("something's fucked up")
         }
         
         
@@ -190,7 +226,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
         
         
             
-        PlaybackPresenter.shared.startPlayBack(from: self,track: song)
+        
     }
 }
 

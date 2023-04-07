@@ -11,11 +11,15 @@ import AVFoundation
 
 struct Song{
     let name: String
-    let artist: String?
+    var artist: String?
     let albumname: String?
     let duration: String?
     var albumArt: UIImage?
     let url : String?
+    var downloadlink: URL?
+    
+//    func setArt(art: U
+    
 }
 
 
@@ -91,6 +95,4 @@ class CollectionViewTableViewCell: UITableViewCell {
            albumNameLabel.text = song.albumname
         durationLabel.text = "\(song.duration ?? "unavailable")"
        }
-   	
-    
 }

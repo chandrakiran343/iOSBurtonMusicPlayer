@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import SwiftyDropbox
+import SwiftAudioPlayer
 import AVFoundation
 
 protocol playerDataSource:AnyObject {
@@ -42,43 +43,19 @@ final class PlaybackPresenter: playerDataSource{
     func startPlayBack(from viewcontroller: UIViewController,track: Song){
         
         let vc = MusicViewController()
-        vc.title = track.name
+//        vc.title = track.name
         self.track = track
         self.tracks.append(track)
         vc.modalPresentationStyle = .fullScreen
         vc.dataSource = self
-       
-        
-        
-        
+        SAPlayer.shared.engine?.prepare()
+        SAPlayer.shared.startRemoteAudio(withRemoteUrl: track.downloadlink!)
+        vc.modalPresentationStyle = .fullScreen
         let navvc = UINavigationController(rootViewController: vc)
 //        navvc.setNavigationBarHidden(true, animated: true)
        
         
         viewcontroller.present(navvc, animated: true, completion: nil)
-    }
-    
-    public func downloadSong(name:String,path:String) {
-        let client = DropboxClientsManager.authorizedClient
-        
-        client?.files.getTemporaryLink(path: path).response{ response,error in
-            if let link = response?.link{
-                let task = URLSession.shared.downloadTask(with: URL(string: link)!)
-                do{
-                    let url = URL(string: link )
-                    self.audioplayer = try AVPlayer(url: url!)
-                    self.audioplayer?.automaticallyWaitsToMinimizeStalling = false
-               }
-               catch let error{
-                   print(error)
-               }
-
-               self.audioplayer?.play()
-                print(link, response)
-            }
-            
-        }
-//        }
     }
 }
     

@@ -8,6 +8,7 @@
 import UIKit
 import SwiftyDropbox
 import UniformTypeIdentifiers
+import MobileCoreServices
 
 class UploadViewController: UIViewController, UIDocumentPickerDelegate {
 
@@ -32,7 +33,12 @@ class UploadViewController: UIViewController, UIDocumentPickerDelegate {
     }
     
     func setupSpinner() {
-        spinner = UIActivityIndicatorView(style: .large)
+        if #available(iOS 13.0, *) {
+            spinner = UIActivityIndicatorView(style: .large)
+        } else {
+            // Fallback on earlier versions
+            spinner = UIActivityIndicatorView(frame: CGRect(x: view.width / 2, y: view.height / 2, width: 80, height: 100))
+        }
         spinner.color = .blue
         spinner.translatesAutoresizingMaskIntoConstraints = false
         spinner.sizeToFit()
@@ -44,11 +50,20 @@ class UploadViewController: UIViewController, UIDocumentPickerDelegate {
     }
     
     @objc func uploadButtonTapped() {
-        let allowedtypes : [UTType] = [UTType.audio]
+        var documentPicker: UIDocumentPickerViewController
+        if #available(iOS 14.0, *) {
+            let allowedtypes : [UTType] = [UTType.audio]
+            documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: allowedtypes)
+            documentPicker.delegate = self
+    present(documentPicker, animated: true, completion: nil)
+
+        } else {
+            let documentPicker = UIDocumentPickerViewController(documentTypes: [kUTTypeAudio as String], in: .import)
+            present(documentPicker, animated: true, completion: nil)
+            // Fallback on earlier versions
+        }
         
-        let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: allowedtypes)
-        documentPicker.delegate = self
-        present(documentPicker, animated: true, completion: nil)
+                
     }
     
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {

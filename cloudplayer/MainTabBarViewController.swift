@@ -23,7 +23,12 @@ class MainTabBarViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        if #available(iOS 13.0, *) {
+            view.backgroundColor = .systemBackground
+        } else {
+            // Fallback on earlier versions
+            view.backgroundColor = .white
+        }
         
         let c1 = HomeViewController()
         let c2 = UploadViewController()
@@ -58,15 +63,28 @@ class MainTabBarViewController: UITabBarController {
         
         
         
-        vc1.tabBarItem.image = UIImage(systemName: "house")
-        vc2.tabBarItem.image = UIImage(systemName: "arrow.up")
-        vc3.tabBarItem.image = UIImage(systemName: "arrow.down.to.line")
+        if #available(iOS 13.0, *) {
+            vc1.tabBarItem.image = UIImage(systemName: "house")
+            vc2.tabBarItem.image = UIImage(systemName: "arrow.up")
+            vc3.tabBarItem.image = UIImage(systemName: "arrow.down.to.line")
+        } else {
+            // Fallback on earlier versions
+            vc1.tabBarItem.image = UIImage(named: "home")
+            vc2.tabBarItem.image = UIImage(named: "upload")
+            vc3.tabBarItem.image = UIImage(named: "downloading")
+        }
+        
         
 //        vc1.navigationItem.
         
         
         
-        tabBar.tintColor = .label
+        if #available(iOS 13.0, *) {
+            tabBar.tintColor = .label
+        } else {
+            // Fallback on earlier versions
+            tabBar.tintColor = .clear
+        }
         
         setViewControllers([vc1,vc2,vc3], animated: true)
         

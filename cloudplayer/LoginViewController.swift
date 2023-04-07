@@ -20,7 +20,12 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         
         	
-        view.backgroundColor = .systemBackground
+        if #available(iOS 13.0, *) {
+            view.backgroundColor = .systemBackground
+        } else {
+            // Fallback on earlier versions
+            view.backgroundColor = .white
+        }
         
 //        self.navigationItem.largeTitleDisplayMode = .always
 //
