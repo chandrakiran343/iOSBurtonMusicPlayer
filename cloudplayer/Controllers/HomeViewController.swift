@@ -58,7 +58,15 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
                                         if let link = response?.link{
                                             do{
                                                 let url = URL(string: link )!
-                                                let song = Song(name: entry.name, artist:"Unknown", albumname: nil,duration: 0.0 ,albumArt:nil,url:entry.pathLower ?? "/", downloadlink: url)
+//                                                let asset = AVAsset(url: url)
+                                                var res: Bool = false
+                                                for item in MainTabBarViewController.downloadedFiles{
+                                                    if (entry.name == item.name){
+                                                        res = true
+                                                    }
+                                                }
+                                                
+                                                let song = Song(name: entry.name, artist:"Unknown", albumname: nil,duration: 0.0 ,albumArt:nil,url:entry.pathLower ?? "/", downloadlink: url, downloaded: res)
                                                 self.filenames.append(song)
                                                 self.ogData.append(song)
                                                 self.homeFeed.reloadData()
@@ -83,11 +91,12 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        getFiles()
+//        getFiles()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getFiles()
         if #available(iOS 13.0, *) {
             view.backgroundColor = .systemBackground
         } else {

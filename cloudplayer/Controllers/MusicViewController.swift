@@ -45,21 +45,31 @@ class MusicViewController: UIViewController {
         var beingSeeked: Bool = false
         var loopEnabled = false
     var downloadProgress: CGFloat = 0.0
+    
     func tapdownloadButton(downloadButton: AHDownloadButton, state: AHDownloadButton.State) -> Void {
         switch state{
         case .startDownload:
             downloadButton.progress = 0
             print("Tapped download")
+            let remoteUrl = (PlaybackPresenter.shared.currentTrack?.downloadlink)!
+            if !SAPlayer.Downloader.isDownloaded(withRemoteUrl: remoteUrl){
+                
+            
             downloadButton.state = .pending
 //            downloadButton.transitionAnimationDuration = TimeInterval(2.0)
 //            downloadButton.state = .downloadi
             
-            SAPlayer.Downloader.downloadAudio(withRemoteUrl: (PlaybackPresenter.shared.currentTrack?.downloadlink)!){result,error in
+            SAPlayer.Downloader.downloadAudio(withRemoteUrl: remoteUrl ,name:PlaybackPresenter.shared.currentTrack!.name){result,error in
                 self.controls.downloadButton.progress = 1
                 self.controls.downloadButton.state = .downloaded
+                PlaybackPresenter.shared.track?.downloaded = true
                 self.controls.downloadButton.downloadedButtonTitle = "Done"
                 self.tapdownloadButton(downloadButton: downloadButton, state: downloadButton.state)
                 print(result)
+            }
+            }
+            else{
+                downloadButton.state = .downloaded
             }
             
 //            tapdownloadButton(downloadButton: downloadButton, state: downloadButton.state)
@@ -98,17 +108,31 @@ class MusicViewController: UIViewController {
         }
         
         controls.delegate = self
+        
         controls.downloadButton.didTapDownloadButtonAction = tapdownloadButton
+        
+        
         controls.downloadButton.downloadButtonStateChangedAction = stateChange
         controls.dataSource = self.dataSource
+        
         view.addSubview(imageview)
 //        if(SAPlayer.shared.){
 //            controls.playbutton.isEnabled = false
 //        }
         view.addSubview(controls)
+        
         configureBarButtons()
         configure()
     }
+    
+    func checkIsDownloaded(remote: URL) -> Void {
+        for item in MainTabBarViewController.downloadedFiles{
+            if (PlaybackPresenter.shared.name == item.name){
+                
+            }
+        }
+    }
+    
     func subscribeToChanges() {
             durationId = SAPlayer.Updates.Duration.subscribe { [weak self] (duration) in
                 guard let self = self else { return }
@@ -130,7 +154,10 @@ class MusicViewController: UIViewController {
                 
                 self.downloadProgress = CGFloat(progress)
                 print("the download progress is: ", progress, self.downloadProgress)
-                self.controls.downloadButton.progress += self.downloadProgress
+                
+                if(self.controls.downloadButton.state == .downloading){
+                    self.controls.downloadButton.progress += self.downloadProgress
+                }
 //                self.controls.downloadButton.progress = self.downloadProgress
 //                if self.isDownloading {
 //                    DispatchQueue.main.async {

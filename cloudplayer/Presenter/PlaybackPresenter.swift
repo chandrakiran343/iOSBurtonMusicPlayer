@@ -23,7 +23,7 @@ final class PlaybackPresenter: playerDataSource{
     
     static let shared = PlaybackPresenter()
     
-    private var track: Song?
+    var track: Song?
     private var tracks = [Song]()
     
     var currentTrack :Song? {
@@ -35,7 +35,6 @@ final class PlaybackPresenter: playerDataSource{
         }
         return nil
     }
-    
     var audioplayer: AVPlayer?
     
     var songdata: Data!
@@ -43,9 +42,10 @@ final class PlaybackPresenter: playerDataSource{
 //    private var song:Song?
     func startPlayBack(from viewcontroller: UIViewController,track: Song){
         
+        self.track = track
         let vc = MusicViewController()
 //        vc.title = track.name
-        self.track = track
+        
         self.tracks.append(track)
         vc.modalPresentationStyle = .popover
         vc.dataSource = self

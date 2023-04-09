@@ -19,6 +19,7 @@ struct Song{
     var albumArt: UIImage?
     let url : String?
     var downloadlink: URL?
+    var downloaded: Bool?
 }
 
 

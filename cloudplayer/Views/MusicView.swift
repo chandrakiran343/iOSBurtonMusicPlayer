@@ -118,19 +118,27 @@ class MusicView: UIView{
     let songTitleLabel = UILabel()
     
     let downloadButton = AHDownloadButton()
-    
+    let downloadedButton = UIButton()
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
         addSubview(nameLabel)
         addSubview(subtitle)
+        downloadedButton.setTitle("Done", for: .normal)
+        downloadedButton.backgroundColor = .blue
         addSubview(durationSlider)
         addSubview(durationFinalLabel)
         addSubview(durationLabel)
         addSubview(backbutton)
         addSubview(playbutton)
         addSubview(forwardbutton)
-        addSubview(downloadButton)
+        if(!(PlaybackPresenter.shared.track?.downloaded)!){
+            addSubview(downloadButton)
+        }
+        else{
+            addSubview(downloadedButton)
+        }
+        
         
         backbutton.addTarget(self, action: #selector(didtapback), for: .touchUpInside)
         forwardbutton.addTarget(self, action: #selector(didtapforward), for: .touchUpInside)
@@ -166,6 +174,7 @@ class MusicView: UIView{
         durationLabel.frame = CGRect(x: durationSlider.right-55,y: durationSlider.bottom, width:80 , height: 15)
         durationFinalLabel.frame = CGRect(x: durationSlider.left,y: durationSlider.bottom, width:80 , height: 15)
         downloadButton.frame = CGRect(x: width - 40 , y: nameLabel.bottom, width: 35, height: 35)
+        downloadedButton.frame = downloadButton.frame
         durationLabel.backgroundColor = .clear
         durationFinalLabel.backgroundColor = .clear
         self.delegate?.somethingWithDuration(self)

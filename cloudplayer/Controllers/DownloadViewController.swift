@@ -29,6 +29,9 @@ class DownloadViewController: UIViewController, UISearchBarDelegate {
         search.placeholder = "Search for the Audio here"
         return search
     }()
+    
+    var downloadedFiles: [Song] = []
+    
     var audioFiles: [Song] = []
     var ogData: [Song] = []
     
@@ -36,11 +39,58 @@ class DownloadViewController: UIViewController, UISearchBarDelegate {
         super.viewWillAppear(true)
             
         audioFiles = MainTabBarViewController.downloadedFiles
-            
+        ogData = MainTabBarViewController.downloadedFiles
+        if (MainTabBarViewController.downloadedFiles.isEmpty){
+            downloadedFiles = {
+                var songs: [Song] = []
+                
+                let storage = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+                print(storage)
+                do{
+                    let files = try FileManager.default.contentsOfDirectory(at: storage.first!, includingPropertiesForKeys: nil    )
+                    
+                    print("hello",files)
+                    print()
+                    for file in files{
+                        let url = file.absoluteURL
+                        let item = AVAsset(url: file)
+                        let commonmeta = item.commonMetadata
+                        let Titlemetadata = AVMetadataItem.metadataItems(from: commonmeta, withKey: AVMetadataKey.commonKeyTitle, keySpace: AVMetadataKeySpace.common).first
+                        let ArtistMetaData = AVMetadataItem.metadataItems(from: commonmeta, withKey: AVMetadataKey.commonKeyArtist, keySpace: AVMetadataKeySpace.common)
+                        let albumnameMetaData = AVMetadataItem.metadataItems(from: commonmeta, withKey: AVMetadataKey.commonKeyAlbumName, keySpace: AVMetadataKeySpace.common)
+                        let ArtmeMetaData = AVMetadataItem.metadataItems(from: commonmeta, withKey: AVMetadataKey.commonKeyArtwork, keySpace: AVMetadataKeySpace.common)
+         //                print(ArtistMetaData.first?.stringValue)
+                        let song = Song(name: (Titlemetadata?.stringValue)!, artist: ArtistMetaData.first?.stringValue, albumname: albumnameMetaData.first?.stringValue, duration: Double(CMTimeGetSeconds(item.duration)), albumArt: UIImage(data: ArtmeMetaData.first?.dataValue ?? Data()), url: url.absoluteString, downloadlink: url,downloaded: true)
+                        
+         //                print(song)
+                        songs.append(song)
+                        ogData.append(song)
+                    }
+                }catch{
+                    print(error)
+                }
+                
+                
+                let media = MPMediaQuery.songs()
+                let items = media.items
+                
+                if (items == nil){
+                    return []
+                }
+                
+                for item in items! {
+                    let url = item.assetURL
+                    let song = Song(name: item.title ?? "Unnamed", artist: item.artist, albumname: item.albumTitle, duration: item.playbackDuration, albumArt: item.artwork?.image(at: CGSize(width: 500, height: 500)), url: "", downloadlink: url,downloaded: true)
+                    songs.append(song)
+                    ogData.append(song)
+                }
+                return songs
+            }()
         ogData = audioFiles
         tableView.reloadData()
-
+        }
     }
+        
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
@@ -62,8 +112,6 @@ class DownloadViewController: UIViewController, UISearchBarDelegate {
         
         filteredData = audioFiles
         
-        
-        
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -78,7 +126,6 @@ class DownloadViewController: UIViewController, UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         audioFiles = ogData
     }
-
 }
 
 extension DownloadViewController: UITableViewDelegate, UITableViewDataSource {
@@ -123,6 +170,7 @@ extension DownloadViewController: UITableViewDelegate, UITableViewDataSource {
         let song = audioFiles[indexPath.row]
         
         PlaybackPresenter.shared.startPlayBack(from: self , track: song)
+        
     }
 }
 
