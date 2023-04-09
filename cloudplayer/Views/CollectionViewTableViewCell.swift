@@ -9,33 +9,29 @@ import UIKit
 import SwiftyDropbox
 import AVFoundation
 
+import SwiftAudioPlayer
+
 struct Song{
     let name: String
     var artist: String?
     let albumname: String?
-    let duration: String?
+    let duration: Double?
     var albumArt: UIImage?
     let url : String?
     var downloadlink: URL?
-    
-//    func setArt(art: U
-    
 }
 
 
 
-class CollectionViewTableViewCell: UITableViewCell {
-    
-    
-    
-    
+class CollectionViewTableViewCell: UITableViewCell{
     
     static let identifier = "SongViewTableViewCell"
-    
+
     private let songTitleLabel = UILabel()
         private let artistNameLabel = UILabel()
         private let albumNameLabel = UILabel()
         private let durationLabel = UILabel()
+    
 //    private var selected:Int = 0
     var data: Data!
     var name: String!
@@ -55,12 +51,14 @@ class CollectionViewTableViewCell: UITableViewCell {
            contentView.addSubview(artistNameLabel)
            contentView.addSubview(albumNameLabel)
            contentView.addSubview(durationLabel)
+            
            
            // Set up constraints
            songTitleLabel.translatesAutoresizingMaskIntoConstraints = false
            artistNameLabel.translatesAutoresizingMaskIntoConstraints = false
            albumNameLabel.translatesAutoresizingMaskIntoConstraints = false
            durationLabel.translatesAutoresizingMaskIntoConstraints = false
+        
            
            NSLayoutConstraint.activate([
                songTitleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
@@ -78,10 +76,17 @@ class CollectionViewTableViewCell: UITableViewCell {
                durationLabel.topAnchor.constraint(equalTo: albumNameLabel.bottomAnchor, constant: 4),
                durationLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
                durationLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-               durationLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+               durationLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            
            ])
+        
        }
-    
+//    override func layoutSubviews() {
+//
+////        downloadButton.contentEdgeInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
+//
+//
+//    }
        
        required init?(coder: NSCoder) {
            fatalError("init(coder:) has not been implemented")
@@ -93,6 +98,8 @@ class CollectionViewTableViewCell: UITableViewCell {
            songTitleLabel.text = song.name
            artistNameLabel.text = song.artist
            albumNameLabel.text = song.albumname
-        durationLabel.text = "\(song.duration ?? "unavailable")"
+        durationLabel.text = "\(song.duration ?? 0.0)"
        }
+    
+    
 }

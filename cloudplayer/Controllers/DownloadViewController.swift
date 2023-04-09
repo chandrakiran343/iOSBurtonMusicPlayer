@@ -6,67 +6,123 @@
 //
 
 import UIKit
+import MediaPlayer	
+import SwiftAudioPlayer
 
-class DownloadViewController: UIViewController {
+class DownloadViewController: UIViewController, UISearchBarDelegate {
     var tableView: UITableView = {
-        var table: UITableView?
+        var table:UITableView
         if #available(iOS 13.0, *) {
             table = UITableView(frame: .zero, style: .insetGrouped)
         } else {
             // Fallback on earlier versions
             table = UITableView(frame: .zero)
         }
-        table?.register(CollectionViewTableViewCell.self, forCellReuseIdentifier: CollectionViewTableViewCell.identifier)
-        return table!
+        table.register(DownloadTableViewCell.self, forCellReuseIdentifier: DownloadTableViewCell.identifier)
+        return table
     }()
+    var filteredData: [Song]!
+    private let searchBar: UISearchBar = {
+//        let search = UISearchBar(frame: CGRect(x:0,y:0,width:100,height: 120))
+        let search = UISearchBar()
+        
+        search.placeholder = "Search for the Audio here"
+        return search
+    }()
+    var audioFiles: [Song] = []
+    var ogData: [Song] = []
     
-    var audioFiles: [URL] = []
-    let fileManager = FileManager.default
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+            
+        audioFiles = MainTabBarViewController.downloadedFiles
+            
+        ogData = audioFiles
+        tableView.reloadData()
+
+    }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        tableView.frame = view.bounds
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.addSubview(tableView)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        fetchLocalAudioFiles()
+        searchBar.delegate = self
+
+        tableView.tableHeaderView = searchBar
+    
+        searchBar.sizeToFit()
+
+        tableView.tableHeaderView?.frame.size.height = searchBar.frame.size.height
+        
+        filteredData = audioFiles
+        
+        
+        
     }
     
-    func fetchLocalAudioFiles() {
-//        do {
-//            let documentsURL = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-//            let audioFiles = try fileManager.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil, options: .skipsHiddenFiles).filter { $0.pathExtension == "mp3" }
-//            self.audioFiles = audioFiles
-//            tableView.reloadData()
-//        } catch {
-//            print("Error fetching local audio files: \(error.localizedDescription)")
-//        }
-        // Start the search in the root directory
-//        _ = try? fileManager.url(for: .downloadsDirectory, in: .localDomainMask, appropriateFor: nil, create: false); else {
-//            print(audioFiles)
-//               return audioFiles
-//           }
-        
-        
-        
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filteredData = searchText.count == 0 ? ogData : audioFiles.filter{ (item: Song)->Bool in
+            return item.name.range(of: searchText, options: .caseInsensitive,range: nil,locale: nil) != nil
+        }
+        // setup to handle index out of bounds error while no search results
+        audioFiles = filteredData
+        tableView.reloadData()
     }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        audioFiles = ogData
+    }
+
 }
 
-extension DownloadViewController: UITableViewDataSource {
+extension DownloadViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return audioFiles.count
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let audioFileURL = audioFiles[indexPath.row]
-        cell.textLabel?.text = audioFileURL.lastPathComponent
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DownloadTableViewCell.identifier, for: indexPath) as? DownloadTableViewCell else {
+            return UITableViewCell()
+        }
+        if(indexPath.row < audioFiles.count){
+        let song = audioFiles[indexPath.row]
+            
+        cell.configure(song: song)
+            
+        
+        cell.textLabel?.textAlignment = .natural
+        cell.textLabel?.textColor = .white
+
         return cell
+        }
+        else{
+            print(indexPath.row)
+            print("ripped")
+        }
+        cell.backgroundColor = .cyan
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let song = audioFiles[indexPath.row]
+        
+        PlaybackPresenter.shared.startPlayBack(from: self , track: song)
     }
 }
 
-extension DownloadViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let audioFileURL = audioFiles[indexPath.row]
-//        let playerViewController = PlaybackPresenter.shared.startPlayBack(from: self, url: audioFileURL)
-        }
-}

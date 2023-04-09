@@ -16,9 +16,11 @@
 		8A47AC0B29D0D86E0049CEB7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A47AC0A29D0D86E0049CEB7 /* HomeViewController.swift */; };
 		8A47AC0F29D0D8840049CEB7 /* UploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A47AC0E29D0D8840049CEB7 /* UploadViewController.swift */; };
 		8A47AC1229D0D8920049CEB7 /* DownloadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A47AC1129D0D8920049CEB7 /* DownloadViewController.swift */; };
+		8A80CEFB29E20842002C836B /* ScapeGoatButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A80CEFA29E20842002C836B /* ScapeGoatButton.swift */; };
 		8AA991F029D14E8E002DFBA8 /* SwiftyDropbox in Frameworks */ = {isa = PBXBuildFile; productRef = 8AA991EF29D14E8E002DFBA8 /* SwiftyDropbox */; };
 		8AA991F329D14F73002DFBA8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA991F229D14F73002DFBA8 /* LoginViewController.swift */; };
 		8AA991FA29D16F25002DFBA8 /* CollectionViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA991F929D16F25002DFBA8 /* CollectionViewTableViewCell.swift */; };
+		8AAF2FD129E17D4500A6E529 /* DownloadTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAF2FD029E17D4500A6E529 /* DownloadTableViewCell.swift */; };
 		8AC2425129D7EB1000A807EE /* ApiCaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC2425029D7EB1000A807EE /* ApiCaller.swift */; };
 		8AC2425429D8456500A807EE /* MusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC2425329D8456500A807EE /* MusicView.swift */; };
 		8AC2425829D8526A00A807EE /* PlaybackPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AC2425729D8526A00A807EE /* PlaybackPresenter.swift */; };
@@ -37,8 +39,10 @@
 		8A47AC0A29D0D86E0049CEB7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		8A47AC0E29D0D8840049CEB7 /* UploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadViewController.swift; sourceTree = "<group>"; };
 		8A47AC1129D0D8920049CEB7 /* DownloadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadViewController.swift; sourceTree = "<group>"; };
+		8A80CEFA29E20842002C836B /* ScapeGoatButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScapeGoatButton.swift; sourceTree = "<group>"; };
 		8AA991F229D14F73002DFBA8 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		8AA991F929D16F25002DFBA8 /* CollectionViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewTableViewCell.swift; sourceTree = "<group>"; };
+		8AAF2FD029E17D4500A6E529 /* DownloadTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadTableViewCell.swift; sourceTree = "<group>"; };
 		8AC2425029D7EB1000A807EE /* ApiCaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiCaller.swift; sourceTree = "<group>"; };
 		8AC2425329D8456500A807EE /* MusicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicView.swift; sourceTree = "<group>"; };
 		8AC2425729D8526A00A807EE /* PlaybackPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackPresenter.swift; sourceTree = "<group>"; };
@@ -71,7 +75,6 @@
 				E24547EACDF4DD0B2E12AA5D /* Pods-cloudplayer.debug.xcconfig */,
 				8ADE9F2A362F071923FDB5B9 /* Pods-cloudplayer.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -120,6 +123,8 @@
 			children = (
 				8AA991F929D16F25002DFBA8 /* CollectionViewTableViewCell.swift */,
 				8AC2425329D8456500A807EE /* MusicView.swift */,
+				8AAF2FD029E17D4500A6E529 /* DownloadTableViewCell.swift */,
+				8A80CEFA29E20842002C836B /* ScapeGoatButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -279,10 +284,12 @@
 				8AA991F329D14F73002DFBA8 /* LoginViewController.swift in Sources */,
 				8AD5EAC029D360C700BB105E /* Extensions.swift in Sources */,
 				8A47ABF729D0D6480049CEB7 /* MainTabBarViewController.swift in Sources */,
+				8A80CEFB29E20842002C836B /* ScapeGoatButton.swift in Sources */,
 				8AC2425129D7EB1000A807EE /* ApiCaller.swift in Sources */,
 				8AA991FA29D16F25002DFBA8 /* CollectionViewTableViewCell.swift in Sources */,
 				8A47AC0F29D0D8840049CEB7 /* UploadViewController.swift in Sources */,
 				8A47ABF329D0D6480049CEB7 /* AppDelegate.swift in Sources */,
+				8AAF2FD129E17D4500A6E529 /* DownloadTableViewCell.swift in Sources */,
 				8AD3AB6129D78B630071EB02 /* MusicViewController.swift in Sources */,
 				8A47ABF529D0D6480049CEB7 /* SceneDelegate.swift in Sources */,
 				8A47AC1229D0D8920049CEB7 /* DownloadViewController.swift in Sources */,

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AHDownloadButton
 
 
 protocol playerControlsDelegate: AnyObject {
@@ -20,7 +21,7 @@ struct titles{
     var title:String?
     var subtitles:String?
 }
-class MusicView: UIView {
+class MusicView: UIView{
     
     weak var delegate: playerControlsDelegate?
     weak var dataSource: playerDataSource?
@@ -116,6 +117,8 @@ class MusicView: UIView {
    
     let songTitleLabel = UILabel()
     
+    let downloadButton = AHDownloadButton()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
@@ -127,7 +130,7 @@ class MusicView: UIView {
         addSubview(backbutton)
         addSubview(playbutton)
         addSubview(forwardbutton)
-        
+        addSubview(downloadButton)
         
         backbutton.addTarget(self, action: #selector(didtapback), for: .touchUpInside)
         forwardbutton.addTarget(self, action: #selector(didtapforward), for: .touchUpInside)
@@ -162,7 +165,7 @@ class MusicView: UIView {
 //        forwardbutton.frame = CGRect(x: playbutton.right + 80, y: playbutton.top, width: buttonSize, height: buttonSize)
         durationLabel.frame = CGRect(x: durationSlider.right-55,y: durationSlider.bottom, width:80 , height: 15)
         durationFinalLabel.frame = CGRect(x: durationSlider.left,y: durationSlider.bottom, width:80 , height: 15)
-        
+        downloadButton.frame = CGRect(x: width - 40 , y: nameLabel.bottom, width: 35, height: 35)
         durationLabel.backgroundColor = .clear
         durationFinalLabel.backgroundColor = .clear
         self.delegate?.somethingWithDuration(self)
@@ -179,4 +182,6 @@ class MusicView: UIView {
         nameLabel.text = titles.title
         subtitle.text = titles.subtitles
     }
+    
+    
 }

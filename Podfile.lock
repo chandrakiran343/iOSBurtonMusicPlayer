@@ -1,16 +1,20 @@
 PODS:
+  - AHDownloadButton (1.3.0)
   - SwiftAudioPlayer (7.6.0)
 
 DEPENDENCIES:
+  - AHDownloadButton
   - SwiftAudioPlayer
 
 SPEC REPOS:
   trunk:
+    - AHDownloadButton
     - SwiftAudioPlayer
 
 SPEC CHECKSUMS:
+  AHDownloadButton: f0778a7e406b49a590c48b241f1ff8e8f1cc5ab4
   SwiftAudioPlayer: a546709faf47f3ab0cb59e41ba4432e6bb61db0a
 
-PODFILE CHECKSUM: 195b878569b7887b38ee5428516eda7999f9686e
+PODFILE CHECKSUM: e96868b5be6fab6970251a22b7e17cdaa7394fbd
 
 COCOAPODS: 1.12.0

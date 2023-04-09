@@ -7,5 +7,6 @@ target 'cloudplayer' do
 
   # Pods for cloudplayer
 pod "SwiftAudioPlayer"
+pod "AHDownloadButton"
 
 end

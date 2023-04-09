@@ -39,6 +39,7 @@ final class PlaybackPresenter: playerDataSource{
     var audioplayer: AVPlayer?
     
     var songdata: Data!
+    var navvc: UIViewController?
 //    private var song:Song?
     func startPlayBack(from viewcontroller: UIViewController,track: Song){
         
@@ -46,16 +47,29 @@ final class PlaybackPresenter: playerDataSource{
 //        vc.title = track.name
         self.track = track
         self.tracks.append(track)
-        vc.modalPresentationStyle = .fullScreen
+        vc.modalPresentationStyle = .popover
         vc.dataSource = self
         SAPlayer.shared.engine?.prepare()
-        SAPlayer.shared.startRemoteAudio(withRemoteUrl: track.downloadlink!)
-        vc.modalPresentationStyle = .fullScreen
-        let navvc = UINavigationController(rootViewController: vc)
+        print(track.downloadlink?.absoluteString)
+        let array = track.downloadlink?.absoluteString.split(separator: ".")
+        let key:String
+        if(array!.count>2){
+            key = String(array![2])
+        }
+        else{
+            key = ""
+        }
+        if( key == "dropboxusercontent"){
+            SAPlayer.shared.clear()
+            SAPlayer.shared.startRemoteAudio(withRemoteUrl: track.downloadlink!)
+        }
+        else{
+            SAPlayer.shared.clear()
+            SAPlayer.shared.startSavedAudio(withSavedUrl: track.downloadlink!)
+        }
+        navvc = UINavigationController(rootViewController: vc)
 //        navvc.setNavigationBarHidden(true, animated: true)
-       
-        
-        viewcontroller.present(navvc, animated: true, completion: nil)
+        viewcontroller.present(navvc!, animated: true, completion: nil)
     }
 }
     
@@ -68,12 +82,12 @@ extension PlaybackPresenter{
         return currentTrack?.artist
     }
     var imageurl: URL?{
-        return nil
+        return nil 
     }
     var song:Song?{
         return currentTrack
     }
     var albumArt: UIImage?{
-        return currentTrack?.albumArt
+        return currentTrack?.albumArt ?? UIImage(named: "icon")
     }
 }

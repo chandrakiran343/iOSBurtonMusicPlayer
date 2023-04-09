@@ -7,7 +7,7 @@
 import SwiftyDropbox
 import UIKit
 import AVFoundation
-//import PromiseKit
+import AHDownloadButton
 
 class HomeViewController: UIViewController,UISearchBarDelegate {
     
@@ -16,6 +16,8 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
     private let client: DropboxClient? = {
         return DropboxClientsManager.authorizedClient
     }()
+    
+    var ogData:[Song]!
     
     private let homeFeed : UITableView = {
         var table:UITableView
@@ -28,9 +30,6 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
         table.register(CollectionViewTableViewCell.self, forCellReuseIdentifier: CollectionViewTableViewCell.identifier)
         return table
     }()
-    
-    let data = ["hello", "kiloo","syboo"]
-    
     var filteredData: [Song]!
     private let searchBar: UISearchBar = {
 //        let search = UISearchBar(frame: CGRect(x:0,y:0,width:100,height: 120))
@@ -42,11 +41,12 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
     
     func getFiles() {
         self.filenames = []
+        self.ogData = []
         listAudioFiles(path: "")
     }
     
     func listAudioFiles(path:String){
-        client?.files.listFolder(path: path).response{response,error in
+        client?.files.listFolder(path: path).response{ [self]response,error in
             if let response = response{
                 print(response)
                 for entry in response.entries{
@@ -58,18 +58,9 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
                                         if let link = response?.link{
                                             do{
                                                 let url = URL(string: link )!
-                                               let asset = AVAsset(url: url)
-                                                let rip = asset.metadata
-                                                let artworkdata = AVMetadataItem.metadataItems(from: rip, filteredByIdentifier: AVMetadataIdentifier.commonIdentifierArtwork)
-                                                var albumart: UIImage?
-                                                if(artworkdata.first != nil){
-                                                   
-                                                albumart = UIImage(data: (artworkdata.first?.dataValue)!)
-                                                }
-                                                
-                                                
-                                                let song = Song(name: entry.name, artist:"Unknown", albumname: nil,duration: " " ,albumArt: albumart,url:entry.pathLower ?? "/", downloadlink: url)
+                                                let song = Song(name: entry.name, artist:"Unknown", albumname: nil,duration: 0.0 ,albumArt:nil,url:entry.pathLower ?? "/", downloadlink: url)
                                                 self.filenames.append(song)
+                                                self.ogData.append(song)
                                                 self.homeFeed.reloadData()
                                             }
                                         }
@@ -80,8 +71,10 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
                 for folder in response.entries where folder is Files.FolderMetadata{
                     self.listAudioFiles(path: folder.pathLower!)
                 }
+                
                     }
                 }
+        
     }
     override func viewDidAppear(_ animated: Bool) {
         if let indexPath = homeFeed.indexPathForSelectedRow{
@@ -134,26 +127,50 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        filteredData = searchText.isEmpty ? filenames: filenames.filter{ (item: Song)->Bool in
+        filteredData = searchText.count == 0 ? ogData : filenames.filter{ (item: Song)->Bool in
             return item.name.range(of: searchText, options: .caseInsensitive,range: nil,locale: nil) != nil
         }
-        print("debug point for search")
         // setup to handle index out of bounds error while no search results
-        print(filteredData as Any)
-//        tableView.reloadData()
+        filenames = filteredData
+        homeFeed.reloadData()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        filenames = ogData!
     }
 }
 
-extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
+extension HomeViewController: UITableViewDelegate, UITableViewDataSource, AHDownloadButtonDelegate{
     
     func numberOfSections(in tableView: UITableView) -> Int {
-//        print(filenames)
+//        print(filenames)	
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int)->Int{
         return filenames.count
     }
+    func initAction(button: AHDownloadButton, state: AHDownloadButton.State) -> Void {
+        print("rip")
+//        print(button.startDownloadButtonTitle)
+//        button.state = .downloading
+        
+        button.downloadButtonStateChangedAction!(button, state)
+    }
+    
+    func changeState(button: AHDownloadButton, state: AHDownloadButton.State) -> Void{
+        print(button.startDownloadButtonTitle)
+        print(button.subviews)
+        
+    }
+    
+    @objc func download(_ sender:ScapeGoatButton){
+        print("Reached the download button ", sender.id)
+        
+        sender.object.didTapDownloadButtonAction?(sender.object, sender.object.state)
+    }
+    
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectionViewTableViewCell.identifier, for: indexPath) as? CollectionViewTableViewCell else {
@@ -162,15 +179,12 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
         if(indexPath.row < filenames.count){
         let song = filenames[indexPath.row]
             
-            print(indexPath.row)
         cell.configure(song: song)
             
-        
         cell.textLabel?.textAlignment = .natural
-            cell.textLabel?.textColor = .white
-//        cell.backgroundColor = UIColor(red: 0.13, green: 0.13, blue: 0.13, alpha: 1.0)
-            	
-
+        cell.textLabel?.textColor = .white
+            
+            
         return cell
         }
         else{
@@ -179,6 +193,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
         }
         return cell
     }
+    
+
     
     
     
@@ -193,40 +209,19 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var songName: String = ""
-        let song: Song?
+        let song: Song
         if (indexPath.row < filenames.count){
             song = filenames[indexPath.row]
-            songName = song!.name
-    //        let queue = DispatchQueue(label: "download queue")
-//            DispatchQueue.global(qos: .background).async{
-//                PlaybackPresenter.shared.downloadSong(name:song!.name, path: song?.url ?? "/")
-//            }
-            PlaybackPresenter.shared.startPlayBack(from: self,track: song!)
+            songName = song.name
+            PlaybackPresenter.shared.startPlayBack(from: self,track: song)
         }
         else{
             print(indexPath.row)
             print("something's fucked up")
         }
-        
-        
         print(songName)
-//        Dispatch.main.async(){
-//            let asset = AVAsset(url: (URL(string: "https://vgmsite.com/soundtracks/club-nintendo-picross-3ds-gamerip-2012/ygyogizjed/01.%20Home%20Menu%20Banner.mp3") ?? URL(string:"/"))!)
-//            let artWorkItems = AVMetadataItem.metadataItems(from: asset.metadata, filteredByIdentifier: AVMetadataIdentifier.commonIdentifierArtwork)
-//            if let artWorkItem = artWorkItems.first, let imageData = artWorkItem.dataValue{
-//                let albumArt = UIImage(data: imageData)
-//                song.albumArt = albumArt
-//                print(albumArt)
-//            }
-//            else{
-//                print("Album art not there")
-//            }
-//        }
-    
-        
-        
-            
-        
     }
+    
+    
 }
 

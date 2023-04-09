@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MediaPlayer
 import SwiftyDropbox
 
 class MainTabBarViewController: UITabBarController {
@@ -20,6 +21,18 @@ class MainTabBarViewController: UITabBarController {
         window?.rootViewController = nav
         window?.makeKeyAndVisible()
     }
+    
+    static let downloadedFiles:[Song] = {
+        let media = MPMediaQuery.songs()
+        let items = media.items
+        var songs: [Song] = []
+        for item in items! {
+            let url = item.assetURL
+            let song = Song(name: item.title ?? "Unnamed", artist: item.artist, albumname: item.albumTitle, duration: item.playbackDuration, albumArt: item.artwork?.image(at: CGSize(width: 500, height: 500)), url: "", downloadlink: url)
+            songs.append(song)
+        }
+        return songs
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
