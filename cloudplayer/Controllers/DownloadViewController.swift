@@ -9,7 +9,7 @@ import UIKit
 import MediaPlayer	
 import SwiftAudioPlayer
 
-class DownloadViewController: UIViewController, UISearchBarDelegate {
+class DownloadViewController: UIViewController, UISearchBarDelegate{
     var tableView: UITableView = {
         var table:UITableView
         if #available(iOS 13.0, *) {
@@ -37,11 +37,7 @@ class DownloadViewController: UIViewController, UISearchBarDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-            
-        audioFiles = MainTabBarViewController.downloadedFiles
-        ogData = MainTabBarViewController.downloadedFiles
-        if (MainTabBarViewController.downloadedFiles.isEmpty){
-            downloadedFiles = {
+            audioFiles = {
                 var songs: [Song] = []
                 
                 let storage = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
@@ -88,7 +84,6 @@ class DownloadViewController: UIViewController, UISearchBarDelegate {
             }()
         ogData = audioFiles
         tableView.reloadData()
-        }
     }
         
     override func viewDidLayoutSubviews() {
@@ -169,7 +164,7 @@ extension DownloadViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let song = audioFiles[indexPath.row]
         
-        PlaybackPresenter.shared.startPlayBack(from: self , track: song)
+        PlaybackPresenter.shared.startPlayBack(from: self , track: song, tracks: audioFiles, index: indexPath)
         
     }
 }

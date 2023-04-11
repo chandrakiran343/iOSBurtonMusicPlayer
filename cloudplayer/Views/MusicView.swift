@@ -14,6 +14,8 @@ protocol playerControlsDelegate: AnyObject {
     func playertappedpause(_ musicview: MusicView)
     func playertappedforward(_ musicview: MusicView)
     func playertappedbackward(_ musicview:MusicView)
+    func playertappednext(_ musicview: MusicView)
+    func playertappedprevious(_ musicview: MusicView)
     func somethingWithDuration(_ musicview:MusicView)
 }
 
@@ -57,8 +59,20 @@ class MusicView: UIView{
 //        label.text = "calvin harris, rihanna"
         return label
     }()
+    let forwardButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "forward"), for: .normal)
+        button.tintColor = .magenta
+        return button
+    }()
     
-    private let backbutton:UIButton={
+    let backwardButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "backward"), for: .normal)
+        button.tintColor = .magenta
+        return button
+    }()
+    private let previousButton:UIButton={
         let button  = UIButton()
         if #available(iOS 13.0, *) {
             button.tintColor = .label
@@ -77,7 +91,7 @@ class MusicView: UIView{
         button.setImage(image, for: .normal)
         return button
     }()
-    private let forwardbutton:UIButton={
+    private let nextButton:UIButton={
         let button  = UIButton()
         if #available(iOS 13.0, *) {
             button.tintColor = .label
@@ -129,9 +143,11 @@ class MusicView: UIView{
         addSubview(durationSlider)
         addSubview(durationFinalLabel)
         addSubview(durationLabel)
-        addSubview(backbutton)
+        addSubview(previousButton)
         addSubview(playbutton)
-        addSubview(forwardbutton)
+        addSubview(nextButton)
+        addSubview(forwardButton)
+        addSubview(backwardButton)
         if(!(PlaybackPresenter.shared.track?.downloaded)!){
             addSubview(downloadButton)
         }
@@ -139,15 +155,15 @@ class MusicView: UIView{
             addSubview(downloadedButton)
         }
         
-        
-        backbutton.addTarget(self, action: #selector(didtapback), for: .touchUpInside)
-        forwardbutton.addTarget(self, action: #selector(didtapforward), for: .touchUpInside)
+        downloadButton.downloadedButtonTitle = "Done"
+        backwardButton.addTarget(self, action: #selector(didtapbackward), for: .touchUpInside)
+        forwardButton.addTarget(self, action: #selector(didtapforward), for: .touchUpInside)
         playbutton.addTarget(self, action: #selector(didtappause), for: .touchUpInside)
-        
-        
+        nextButton.addTarget(self, action: #selector(didtapnext), for: .touchUpInside)
+        previousButton.addTarget(self, action: #selector(didtapprevious), for: .touchUpInside)
     }
     
-    @objc func didtapback(){
+    @objc func didtapbackward(){
         delegate?.playertappedbackward(self)
     }
     @objc func didtapforward(){
@@ -155,17 +171,26 @@ class MusicView: UIView{
     }
     @objc func didtappause(){
         delegate?.playertappedpause(self)
-//        self.playbutton.setImage(UIImage(named: image), for: .normal)
     }
-    
+    @objc func didtapnext(){
+        delegate?.playertappednext(self)
+    }
+    @objc func didtapprevious(){
+        delegate?.playertappedprevious(self)
+    }
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        nameLabel.frame = CGRect(x: 0, y: 20, width: width, height: 50)
-        subtitle.frame = CGRect(x: 0, y: nameLabel.bottom, width: width, height: 30)
+        nameLabel.frame = CGRect(x: 0, y: 20, width: width, height: height / 8)
+        subtitle.frame = CGRect(x: 0, y: nameLabel.bottom, width: width, height: height / 16)
         
-        durationSlider.frame = CGRect(x: 10, y: subtitle.bottom, width: width-20, height: 44)
-        let buttonSize:CGFloat = 40
+        durationSlider.frame = CGRect(x: 10, y: subtitle.bottom, width: width-20, height: 40)
+        let buttonSize:CGFloat
+        if #available(iOS 13.0, *){
+            buttonSize = 40
+        }else{
+            buttonSize = 30
+        }
         
 //        playbutton.frame = CGRect(x: (width - buttonSize)/2, y: volumeSlider.bottom+30, width: buttonSize, height: buttonSize)
 //
@@ -173,14 +198,16 @@ class MusicView: UIView{
 //        forwardbutton.frame = CGRect(x: playbutton.right + 80, y: playbutton.top, width: buttonSize, height: buttonSize)
         durationLabel.frame = CGRect(x: durationSlider.right-55,y: durationSlider.bottom, width:80 , height: 15)
         durationFinalLabel.frame = CGRect(x: durationSlider.left,y: durationSlider.bottom, width:80 , height: 15)
-        downloadButton.frame = CGRect(x: width - 40 , y: nameLabel.bottom, width: 35, height: 35)
+        downloadButton.frame = CGRect(x: width - 40 , y: nameLabel.bottom, width: 55, height: 35)
         downloadedButton.frame = downloadButton.frame
         durationLabel.backgroundColor = .clear
         durationFinalLabel.backgroundColor = .clear
         self.delegate?.somethingWithDuration(self)
-        playbutton.frame = CGRect(x: (width-buttonSize)/2, y: durationSlider.bottom+25 - self.safeAreaInsets.bottom, width: buttonSize, height: buttonSize)
-        backbutton.frame = CGRect(x: playbutton.left - 80 - buttonSize, y: playbutton.top, width: buttonSize, height: buttonSize)
-        forwardbutton.frame = CGRect(x: playbutton.right + 80, y: playbutton.top, width: buttonSize, height: buttonSize)
+        playbutton.frame = CGRect(x: (width-buttonSize)/2, y: durationSlider.bottom + self.safeAreaInsets.bottom, width: buttonSize, height: buttonSize)
+        forwardButton.frame = CGRect(x: playbutton.right + 30, y: playbutton.top, width: buttonSize, height: buttonSize)
+        backwardButton.frame = CGRect(x: playbutton.left - 30 - buttonSize, y: playbutton.top, width: buttonSize, height: buttonSize)
+        previousButton.frame = CGRect(x: playbutton.left - 90 - buttonSize, y: playbutton.top, width: buttonSize, height: buttonSize)
+        nextButton.frame = CGRect(x: playbutton.right + 90, y: playbutton.top, width: buttonSize, height: buttonSize)
     }
     
     required init?(coder: NSCoder) {
@@ -191,6 +218,4 @@ class MusicView: UIView{
         nameLabel.text = titles.title
         subtitle.text = titles.subtitles
     }
-    
-    
 }

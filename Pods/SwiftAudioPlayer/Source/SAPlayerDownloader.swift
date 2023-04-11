@@ -47,9 +47,9 @@ extension SAPlayer {
          - Parameter completion: Completion handler that will return once the download is successful and complete.
          - Parameter savedUrl: The url of where the audio was saved locally on the device. Will receive once download has completed.
          */
-        public static func downloadAudio(withRemoteUrl url: URL, name: String, completion: @escaping (_ savedUrl: URL, _ error: Error?) -> ()) {
+        public static func downloadAudio(withRemoteUrl url: URL,name:String, completion: @escaping (_ savedUrl: URL, _ error: Error?) -> ()) {
             SAPlayer.shared.addUrlToMapping(url: url)
-            AudioDataManager.shared.startDownload(withRemoteURL: url,name: name, completion: completion)
+            AudioDataManager.shared.startDownload(withRemoteURL: url,name:name, completion: completion)
         }
         
         /**
@@ -78,8 +78,8 @@ extension SAPlayer {
          - Parameter url: The remote url corresponding to the audio file you want to see if downloaded.
          - Returns: Whether of not file at remote url is downloaded on device.
          */
-        public static func isDownloaded(withRemoteUrl url: URL) -> Bool {
-            return AudioDataManager.shared.getPersistedUrl(withRemoteURL: url) != nil
+        public static func isDownloaded(withRemoteUrl url: URL,name:String) -> Bool {
+            return AudioDataManager.shared.getPersistedUrl(withRemoteURL: url,name:name) != nil
         }
         
         /**
@@ -88,8 +88,8 @@ extension SAPlayer {
          - Parameter url: The remote url corresponding to the audio file you want the device url of.
          - Returns: Url of audio file on device if it exists.
          */
-        public static func getSavedUrl(forRemoteUrl url: URL) -> URL? {
-            return AudioDataManager.shared.getPersistedUrl(withRemoteURL: url)
+        public static func getSavedUrl(forRemoteUrl url: URL,name:String) -> URL? {
+            return AudioDataManager.shared.getPersistedUrl(withRemoteURL: url,name:name)
         }
         
         /**

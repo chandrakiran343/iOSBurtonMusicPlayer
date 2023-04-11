@@ -8,8 +8,11 @@ import Foundation
 import UIKit
 import MediaPlayer
 import SwiftyDropbox
+import SwiftAudioPlayer
 
-class MainTabBarViewController: UITabBarController {
+
+
+class MainTabBarViewController: UITabBarController, UIAdaptivePresentationControllerDelegate {
     
     @objc func logoutProcess(){
         print("pressed logout")
@@ -21,6 +24,33 @@ class MainTabBarViewController: UITabBarController {
         window?.rootViewController = nav
         window?.makeKeyAndVisible()
     }
+    var gestureRecog: UIPanGestureRecognizer!
+    var playback: SAPlayingStatus!{
+        didSet{
+            if(self.playback == .playing){
+                if #available(iOS 13.0 , *){
+                    self.minplayer.playButton.setImage(UIImage(systemName: "pause", withConfiguration: UIImage.SymbolConfiguration(pointSize: 34,weight: .regular)), for: .normal)
+                }
+                else{
+                    self.minplayer.playButton.setImage(UIImage(named: "pause"), for: .normal)
+                }
+            }
+            else{
+                if #available(iOS 13.0, *){
+                    self.minplayer.playButton.setImage(UIImage(systemName: "play", withConfiguration: UIImage.SymbolConfiguration(pointSize: 34,weight: .regular)), for: .normal)
+                }
+                else{
+                    self.minplayer.playButton.setImage(UIImage(named: "play-button-arrowhead"), for: .normal)
+                }
+            }
+        }
+    }
+    var songName = UILabel()
+    var artistName = UILabel()
+        static let shared = MainTabBarViewController()
+    var minplayer: MinPlayer!
+    var control: Bool = true
+    
     
     static let downloadedFiles:[Song] = {
         
@@ -31,8 +61,7 @@ class MainTabBarViewController: UITabBarController {
         do{
             let files = try FileManager.default.contentsOfDirectory(at: storage.first!, includingPropertiesForKeys: nil    )
             
-            print("hello",files)
-            print()
+
             for file in files{
                 let url = file.absoluteURL
                 let item = AVAsset(url: file)
@@ -50,6 +79,7 @@ class MainTabBarViewController: UITabBarController {
                 let ArtistMetaData = AVMetadataItem.metadataItems(from: commonmeta, withKey: AVMetadataKey.commonKeyArtist, keySpace: AVMetadataKeySpace.common)
                 let albumnameMetaData = AVMetadataItem.metadataItems(from: commonmeta, withKey: AVMetadataKey.commonKeyAlbumName, keySpace: AVMetadataKeySpace.common)
                 let ArtmeMetaData = AVMetadataItem.metadataItems(from: commonmeta, withKey: AVMetadataKey.commonKeyArtwork, keySpace: AVMetadataKeySpace.common)
+                
  //                print(ArtistMetaData.first?.stringValue)
                 
                 let song = Song(name: (title), artist: ArtistMetaData.first?.stringValue, albumname: albumnameMetaData.first?.stringValue, duration: Double(CMTimeGetSeconds(item.duration)), albumArt: UIImage(data: ArtmeMetaData.first?.dataValue ?? Data()), url: url.absoluteString, downloadlink: url,downloaded: true)
@@ -76,6 +106,66 @@ class MainTabBarViewController: UITabBarController {
         }
         return songs
     }()
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.viewDidLoad()
+        if(self.playback != nil){
+            self.helpWithStatus(status: self.playback)
+        }
+    }
+    
+    
+    
+    override func viewDidLayoutSubviews() {
+        
+        self.minplayer = MinPlayer(frame:CGRect(x: 0, y: self.tabBar.frame.minY - 60, width: view.width, height: 60))
+        
+        
+        var data = "Not Playing"
+        var artist = ""
+        self.minplayer.playButton.isHidden = true
+        if(!control){
+            print("rip")
+            data = (PlaybackPresenter.shared.track?.name)!
+            artist = (PlaybackPresenter.shared.track?.artist)!
+            self.minplayer.playButton.isHidden = false
+        }
+        self.minplayer.layoutSubviews()
+        
+        if #available(iOS 13.0, *) {
+            self.minplayer.backgroundColor = .systemPurple
+        } else {
+            // Fallback on earlier versions
+            self.minplayer.backgroundColor = .white
+        }
+            
+        
+        self.minplayer.setSong(data: data)
+        self.minplayer.setArtist(data: artist)
+        if(self.playback == .playing){
+            if #available(iOS 13.0 , *){
+                self.minplayer.playButton.setImage(UIImage(systemName: "pause", withConfiguration: UIImage.SymbolConfiguration(pointSize: 34,weight: .regular)), for: .normal)
+            }
+            else{
+                self.minplayer.playButton.setImage(UIImage(named: "pause"), for: .normal)
+            }
+        }
+        else{
+            if #available(iOS 13.0, *){
+                self.minplayer.playButton.setImage(UIImage(systemName: "play", withConfiguration: UIImage.SymbolConfiguration(pointSize: 34,weight: .regular)), for: .normal)
+            }
+            else{
+                self.minplayer.playButton.setImage(UIImage(named: "play-button-arrowhead"), for: .normal)
+            }
+        }
+
+        
+        self.minplayer.playButton.addTarget(self, action: #selector(playandpause), for: .touchUpInside)
+        self.minplayer.addTarget(self, action: #selector(showup), for: .touchUpInside)
+        view.addSubview(self.minplayer)
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,8 +175,6 @@ class MainTabBarViewController: UITabBarController {
             // Fallback on earlier versions
             view.backgroundColor = .white
         }
-        
-        
         
         
         let c1 = HomeViewController()
@@ -124,8 +212,11 @@ class MainTabBarViewController: UITabBarController {
         
         if #available(iOS 13.0, *) {
             vc1.tabBarItem.image = UIImage(systemName: "house")
+            vc1.tabBarItem.imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
             vc2.tabBarItem.image = UIImage(systemName: "arrow.up")
+            vc2.tabBarItem.imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
             vc3.tabBarItem.image = UIImage(systemName: "arrow.down.to.line")
+            vc3.tabBarItem.imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
         } else {
             // Fallback on earlier versions
             vc1.tabBarItem.image = UIImage(named: "home")
@@ -144,11 +235,59 @@ class MainTabBarViewController: UITabBarController {
             // Fallback on earlier versions
             tabBar.tintColor = .clear
         }
-        
+        self.tabBar.barTintColor = .clear
+        self.tabBar.selectedImageTintColor = .green
+        self.tabBar.isTranslucent = true
         setViewControllers([vc1,vc2,vc3], animated: true)
-        
 //        MainTabBarViewController().viewControllers = [SearchBarViewController()]	
     }
-
+    
+    func addMinPlayer(data: String){
+        self.control = false
+        self.viewDidLoad()
+    }
+    
+    @objc func showup(){
+        if(!self.control){
+            PlaybackPresenter.shared.presenting(vc: self)
+        }
+    }
+    func helpWithStatus(status: SAPlayingStatus){
+        self.playback = status
+    }
+    override func updateFocusIfNeeded() {
+        self.updateFocusIfNeeded()
+        
+        self.viewWillAppear(true)
+    }
+    
+    @objc func playandpause(){
+        SAPlayer.shared.togglePlayAndPause()
+        if(self.playback == .paused){
+            if #available(iOS 13.0 , *){
+                self.minplayer.playButton.setImage(UIImage(systemName: "pause", withConfiguration: UIImage.SymbolConfiguration(pointSize: 34,weight: .regular)), for: .normal)
+            }
+            else{
+                self.minplayer.playButton.setImage(UIImage(named: "pause"), for: .normal)
+            }
+        }
+        else{
+            if #available(iOS 13.0, *){
+                self.minplayer.playButton.setImage(UIImage(systemName: "play", withConfiguration: UIImage.SymbolConfiguration(pointSize: 34,weight: .regular)), for: .normal)
+            }
+            else{
+                self.minplayer.playButton.setImage(UIImage(named: "play-button-arrowhead"), for: .normal)
+            }
+        }
+    }
+    
 }
 
+
+extension MainTabBarViewController{
+    
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        self.viewWillAppear(true)
+    }
+    
+}

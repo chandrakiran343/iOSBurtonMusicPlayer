@@ -28,8 +28,12 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
             table = UITableView(frame: .zero, style: .grouped)
         }
         table.register(CollectionViewTableViewCell.self, forCellReuseIdentifier: CollectionViewTableViewCell.identifier)
+        table.separatorColor = .magenta
+        table.separatorStyle = UITableViewCell.SeparatorStyle.singleLine		
         return table
     }()
+    
+    var ini = true
     var filteredData: [Song]!
     private let searchBar: UISearchBar = {
 //        let search = UISearchBar(frame: CGRect(x:0,y:0,width:100,height: 120))
@@ -45,6 +49,7 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
         listAudioFiles(path: "")
     }
     
+    
     func listAudioFiles(path:String){
         client?.files.listFolder(path: path).response{ [self]response,error in
             if let response = response{
@@ -52,7 +57,6 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
                 for entry in response.entries{
                     
                     if(entry.name.hasSuffix("mp3") || entry.name.hasSuffix("m4a")){
-                        print(entry.name)
                         DispatchQueue.global(qos: .background) .async {
                             self.client?.files.getTemporaryLink(path: entry.pathLower!).response{ response,error in
                                         if let link = response?.link{
@@ -84,6 +88,8 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
                 }
         
     }
+    
+    
     override func viewDidAppear(_ animated: Bool) {
         if let indexPath = homeFeed.indexPathForSelectedRow{
             homeFeed.deselectRow(at: indexPath, animated: true)
@@ -91,12 +97,18 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-//        getFiles()
+        if(self.ini){
+            self.ini = false
+            self.getFiles()
+            
+            homeFeed.delegate = self
+            homeFeed.dataSource = self
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getFiles()
+        
         if #available(iOS 13.0, *) {
             view.backgroundColor = .systemBackground
         } else {
@@ -108,8 +120,6 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
         view.addSubview(homeFeed)
     
         
-        homeFeed.delegate = self
-        homeFeed.dataSource = self
         searchBar.delegate = self
 //        searchBar.dataSource = self.filenames
         homeFeed.tableHeaderView = searchBar
@@ -160,17 +170,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource, AHDown
         return filenames.count
     }
     func initAction(button: AHDownloadButton, state: AHDownloadButton.State) -> Void {
-        print("rip")
-//        print(button.startDownloadButtonTitle)
-//        button.state = .downloading
-        
         button.downloadButtonStateChangedAction!(button, state)
     }
     
     func changeState(button: AHDownloadButton, state: AHDownloadButton.State) -> Void{
-        print(button.startDownloadButtonTitle)
         print(button.subviews)
-        
     }
     
     @objc func download(_ sender:ScapeGoatButton){
@@ -204,9 +208,12 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource, AHDown
     }
     
 
-    
-    
-    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.contentView.backgroundColor = .groupTableViewBackground
+        cell.tintColor = .systemPurple
+        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 13)
+        cell.layoutMargins = UIEdgeInsets(top: 10.0, left: 0, bottom: 10.0, right: 0)
+    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
@@ -222,7 +229,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource, AHDown
         if (indexPath.row < filenames.count){
             song = filenames[indexPath.row]
             songName = song.name
-            PlaybackPresenter.shared.startPlayBack(from: self,track: song)
+            PlaybackPresenter.shared.startPlayBack(from: self,track: song, tracks: filenames, index: indexPath)
         }
         else{
             print(indexPath.row)
@@ -230,7 +237,5 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource, AHDown
         }
         print(songName)
     }
-    
-    
 }
 

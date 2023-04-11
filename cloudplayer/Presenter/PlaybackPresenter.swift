@@ -24,7 +24,7 @@ final class PlaybackPresenter: playerDataSource{
     static let shared = PlaybackPresenter()
     
     var track: Song?
-    private var tracks = [Song]()
+    var tracks = [Song]()
     
     var currentTrack :Song? {
         if let track = track{
@@ -36,21 +36,30 @@ final class PlaybackPresenter: playerDataSource{
         return nil
     }
     var audioplayer: AVPlayer?
-    
+    var songId: Int!
     var songdata: Data!
     var navvc: UIViewController?
+    var presenter: UIViewController!
 //    private var song:Song?
-    func startPlayBack(from viewcontroller: UIViewController,track: Song){
-        
-        self.track = track
+    
+    func startPlayBack(from viewcontroller: UIViewController,track: Song,tracks: [Song], index : IndexPath){
+        SAPlayer.shared.engine?.prepare()
+        self.tracks = tracks
+        self.track = tracks[index.row]
+        self.songId = index.row
+        self.presenter = viewcontroller
         let vc = MusicViewController()
 //        vc.title = track.name
         
-        self.tracks.append(track)
-        vc.modalPresentationStyle = .popover
+        vc.modalPresentationStyle = .overFullScreen
+        if #available(iOS 13.0, *) {
+            vc.isModalInPresentation = true
+        } else {
+            // Fallback on earlier versions
+        }
         vc.dataSource = self
-        SAPlayer.shared.engine?.prepare()
-        print(track.downloadlink?.absoluteString)
+        
+        
         let array = track.downloadlink?.absoluteString.split(separator: ".")
         let key:String
         if(array!.count>2){
@@ -62,14 +71,19 @@ final class PlaybackPresenter: playerDataSource{
         if( key == "dropboxusercontent"){
             SAPlayer.shared.clear()
             SAPlayer.shared.startRemoteAudio(withRemoteUrl: track.downloadlink!)
+
         }
         else{
             SAPlayer.shared.clear()
             SAPlayer.shared.startSavedAudio(withSavedUrl: track.downloadlink!)
+            SAPlayer.shared.play()
         }
         navvc = UINavigationController(rootViewController: vc)
-//        navvc.setNavigationBarHidden(true, animated: true)
-        viewcontroller.present(navvc!, animated: true, completion: nil)
+        self.presenting(vc: viewcontroller)
+    }
+    
+    func presenting(vc: UIViewController){
+        vc.present(navvc!, animated: true, completion: nil)
     }
 }
     

@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             else{
                 window = UIWindow()
-                let maintab = MainTabBarViewController()
+                let maintab = MainTabBarViewController.shared
                 self.window?.rootViewController = maintab
                 window?.makeKeyAndVisible()
             }
@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                   print("Success! User is logged into DropboxClientsManager.")
                 if let navig = self.window?.rootViewController as? UINavigationController{
                     navig.setNavigationBarHidden(true, animated: false)
-                    navig.pushViewController(MainTabBarViewController(), animated: true)
+                    navig.pushViewController(MainTabBarViewController.shared, animated: true)
                     
                     
                 }

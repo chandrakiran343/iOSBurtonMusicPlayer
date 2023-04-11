@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		5350827EF1D3F7F8E6799166 /* Pods_cloudplayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5C234390603059A1F023F0B /* Pods_cloudplayer.framework */; };
+		8A0FD93829E539F700F8B1BC /* MiniPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0FD93729E539F700F8B1BC /* MiniPlayerViewController.swift */; };
+		8A0FD93A29E53A5800F8B1BC /* MinPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0FD93929E53A5800F8B1BC /* MinPlayer.swift */; };
 		8A47ABF329D0D6480049CEB7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A47ABF229D0D6480049CEB7 /* AppDelegate.swift */; };
 		8A47ABF529D0D6480049CEB7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A47ABF429D0D6480049CEB7 /* SceneDelegate.swift */; };
 		8A47ABF729D0D6480049CEB7 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A47ABF629D0D6480049CEB7 /* MainTabBarViewController.swift */; };
@@ -29,7 +31,22 @@
 		8AD5EAC029D360C700BB105E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD5EABF29D360C700BB105E /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		8A9FD5AA29E52E6700A9450D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		8A0FD93729E539F700F8B1BC /* MiniPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerViewController.swift; sourceTree = "<group>"; };
+		8A0FD93929E53A5800F8B1BC /* MinPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MinPlayer.swift; path = ../../../../.Trash/MinPlayer.swift; sourceTree = "<group>"; };
 		8A47ABF229D0D6480049CEB7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8A47ABF429D0D6480049CEB7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		8A47ABF629D0D6480049CEB7 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
@@ -114,6 +131,7 @@
 				8A47AC0E29D0D8840049CEB7 /* UploadViewController.swift */,
 				8A47AC1129D0D8920049CEB7 /* DownloadViewController.swift */,
 				8AD3AB6029D78B630071EB02 /* MusicViewController.swift */,
+				8A0FD93729E539F700F8B1BC /* MiniPlayerViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -122,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				8AA991F929D16F25002DFBA8 /* CollectionViewTableViewCell.swift */,
+				8A0FD93929E53A5800F8B1BC /* MinPlayer.swift */,
 				8AC2425329D8456500A807EE /* MusicView.swift */,
 				8AAF2FD029E17D4500A6E529 /* DownloadTableViewCell.swift */,
 				8A80CEFA29E20842002C836B /* ScapeGoatButton.swift */,
@@ -174,6 +193,7 @@
 				8A47ABEC29D0D6480049CEB7 /* Frameworks */,
 				8A47ABED29D0D6480049CEB7 /* Resources */,
 				F76330561D95369947A2006F /* [CP] Embed Pods Frameworks */,
+				8A9FD5AA29E52E6700A9450D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -283,12 +303,14 @@
 			files = (
 				8AA991F329D14F73002DFBA8 /* LoginViewController.swift in Sources */,
 				8AD5EAC029D360C700BB105E /* Extensions.swift in Sources */,
+				8A0FD93829E539F700F8B1BC /* MiniPlayerViewController.swift in Sources */,
 				8A47ABF729D0D6480049CEB7 /* MainTabBarViewController.swift in Sources */,
 				8A80CEFB29E20842002C836B /* ScapeGoatButton.swift in Sources */,
 				8AC2425129D7EB1000A807EE /* ApiCaller.swift in Sources */,
 				8AA991FA29D16F25002DFBA8 /* CollectionViewTableViewCell.swift in Sources */,
 				8A47AC0F29D0D8840049CEB7 /* UploadViewController.swift in Sources */,
 				8A47ABF329D0D6480049CEB7 /* AppDelegate.swift in Sources */,
+				8A0FD93A29E53A5800F8B1BC /* MinPlayer.swift in Sources */,
 				8AAF2FD129E17D4500A6E529 /* DownloadTableViewCell.swift in Sources */,
 				8AD3AB6129D78B630071EB02 /* MusicViewController.swift in Sources */,
 				8A47ABF529D0D6480049CEB7 /* SceneDelegate.swift in Sources */,
