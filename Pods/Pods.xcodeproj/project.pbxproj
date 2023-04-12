@@ -129,14 +129,14 @@
 		8E64C38020C554203BDDBF94935A97B6 /* CircleView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CircleView.swift; path = Sources/AHDownloadButton/Classes/CircleView.swift; sourceTree = "<group>"; };
 		98A7DA6DC38ED6EFA353618A4A2B3DE0 /* Pods-cloudplayer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-cloudplayer.debug.xcconfig"; sourceTree = "<group>"; };
 		9B042A4347336F6EB87DB2066C94105E /* AudioEngine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AudioEngine.swift; path = Source/Engine/AudioEngine.swift; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9FE608368FEE306FEAEC1652B01EA93B /* Pods-cloudplayer.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-cloudplayer.modulemap"; sourceTree = "<group>"; };
 		9FF6D4B215F312936049F8113863D68F /* SwiftAudioPlayer-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftAudioPlayer-prefix.pch"; sourceTree = "<group>"; };
 		A397045B8E32AE93A7D931CB47A0A849 /* SAPlayerDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SAPlayerDelegate.swift; path = Source/SAPlayerDelegate.swift; sourceTree = "<group>"; };
 		A86DF69AE3ADAF1941571F0AB6A5325B /* AudioConverterListener.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AudioConverterListener.swift; path = Source/Engine/Converter/AudioConverterListener.swift; sourceTree = "<group>"; };
 		ABB70056CDB83014900C9C27E541DB0B /* SAPlayingStatus.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SAPlayingStatus.swift; path = Source/Engine/SAPlayingStatus.swift; sourceTree = "<group>"; };
 		AC25C56F0792234F7AC46C51A8E1167F /* StreamProgressPTO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StreamProgressPTO.swift; path = Source/Model/StreamProgressPTO.swift; sourceTree = "<group>"; };
-		AC8158A8A607A053D0B2222396F0CA21 /* AHDownloadButton */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = AHDownloadButton; path = AHDownloadButton.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC8158A8A607A053D0B2222396F0CA21 /* AHDownloadButton.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AHDownloadButton.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD7032DCE6914EC7E9E696126678A8B3 /* Pods-cloudplayer-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-cloudplayer-dummy.m"; sourceTree = "<group>"; };
 		AE1DBDDB8BDD144368CAF81656A517FF /* ProgressCircleView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ProgressCircleView.swift; path = Sources/AHDownloadButton/Classes/ProgressCircleView.swift; sourceTree = "<group>"; };
 		B10406D4C3854F98D780F1C8118DAD44 /* AudioStreamWorker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AudioStreamWorker.swift; path = Source/Model/Streaming/AudioStreamWorker.swift; sourceTree = "<group>"; };
@@ -250,7 +250,6 @@
 				C9F72C65BA6466D73D0BFD648207E419 /* UIView+Constraint.swift */,
 				4CBF8F5C34C56CE714A61F28D50D45E3 /* Support Files */,
 			);
-			name = AHDownloadButton;
 			path = AHDownloadButton;
 			sourceTree = "<group>";
 		};
@@ -272,7 +271,7 @@
 		AB5476C049DBF2ACB0EF73D7F11A98AB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AC8158A8A607A053D0B2222396F0CA21 /* AHDownloadButton */,
+				AC8158A8A607A053D0B2222396F0CA21 /* AHDownloadButton.framework */,
 				8158818D47DD0476C821274B7EEAD1C6 /* Pods-cloudplayer */,
 				E1F0C4F7A8164EAA0AA2FAAFB3EE7D39 /* SwiftAudioPlayer */,
 			);
@@ -352,7 +351,6 @@
 				C50670EC20630B17AF6271C1056A5D53 /* URL.swift */,
 				91BE291BB7488F206F37CC061928D260 /* Support Files */,
 			);
-			name = SwiftAudioPlayer;
 			path = SwiftAudioPlayer;
 			sourceTree = "<group>";
 		};
@@ -429,7 +427,7 @@
 			);
 			name = AHDownloadButton;
 			productName = AHDownloadButton;
-			productReference = AC8158A8A607A053D0B2222396F0CA21 /* AHDownloadButton */;
+			productReference = AC8158A8A607A053D0B2222396F0CA21 /* AHDownloadButton.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		FBFDAF801D749F87A32FC2773FFE7390 /* SwiftAudioPlayer */ = {
@@ -646,7 +644,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/AHDownloadButton/AHDownloadButton-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/AHDownloadButton/AHDownloadButton-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -919,7 +917,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/AHDownloadButton/AHDownloadButton-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/AHDownloadButton/AHDownloadButton-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

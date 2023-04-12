@@ -1,25 +1,23 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "Alamofire",
-        "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
-        "state": {
-          "branch": null,
-          "revision": "78424be314842833c04bc3bef5b72e85fff99204",
-          "version": "5.6.4"
-        }
-      },
-      {
-        "package": "SwiftyDropbox",
-        "repositoryURL": "https://github.com/dropbox/SwiftyDropbox",
-        "state": {
-          "branch": null,
-          "revision": "5bda01b02a87568801a5b2af07e3fdb075dce69c",
-          "version": "9.2.0"
-        }
+  "pins" : [
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "state" : {
+        "revision" : "78424be314842833c04bc3bef5b72e85fff99204",
+        "version" : "5.6.4"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "swiftydropbox",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dropbox/SwiftyDropbox",
+      "state" : {
+        "revision" : "5bda01b02a87568801a5b2af07e3fdb075dce69c",
+        "version" : "9.2.0"
+      }
+    }
+  ],
+  "version" : 2
 }

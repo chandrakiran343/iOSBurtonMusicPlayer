@@ -16,7 +16,6 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
     private let client: DropboxClient? = {
         return DropboxClientsManager.authorizedClient
     }()
-    
     var ogData:[Song]!
     
     private let homeFeed : UITableView = {
@@ -99,8 +98,8 @@ class HomeViewController: UIViewController,UISearchBarDelegate {
     override func viewWillAppear(_ animated: Bool) {
         if(self.ini){
             self.ini = false
-            self.getFiles()
             
+            self.getFiles()
             homeFeed.delegate = self
             homeFeed.dataSource = self
         }
@@ -235,7 +234,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource, AHDown
             print(indexPath.row)
             print("something's fucked up")
         }
-        print(songName)
     }
 }
 

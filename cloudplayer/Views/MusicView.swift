@@ -61,15 +61,25 @@ class MusicView: UIView{
     }()
     let forwardButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "forward"), for: .normal)
-        button.tintColor = .magenta
+        if #available(iOS 13.0, *){
+            button.setImage(UIImage(systemName: "goforward.15"), for: .normal)
+            button.tintColor = .magenta
+        }else{
+            button.setImage(UIImage(named: "forward"), for: .normal)
+            
+        }
         return button
     }()
     
     let backwardButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "backward"), for: .normal)
-        button.tintColor = .magenta
+        
+        if #available(iOS 13.0, *){
+            button.setImage(UIImage(systemName: "gobackward.15"), for: .normal)
+            button.tintColor = .magenta
+        }else{
+            button.setImage(UIImage(named: "backward"), for: .normal)
+        }
         return button
     }()
     private let previousButton:UIButton={
@@ -198,7 +208,7 @@ class MusicView: UIView{
 //        forwardbutton.frame = CGRect(x: playbutton.right + 80, y: playbutton.top, width: buttonSize, height: buttonSize)
         durationLabel.frame = CGRect(x: durationSlider.right-55,y: durationSlider.bottom, width:80 , height: 15)
         durationFinalLabel.frame = CGRect(x: durationSlider.left,y: durationSlider.bottom, width:80 , height: 15)
-        downloadButton.frame = CGRect(x: width - 40 , y: nameLabel.bottom, width: 55, height: 35)
+        downloadButton.frame = CGRect(x: width - 50 , y: nameLabel.bottom, width: 55, height: 35)
         downloadedButton.frame = downloadButton.frame
         durationLabel.backgroundColor = .clear
         durationFinalLabel.backgroundColor = .clear

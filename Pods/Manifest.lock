@@ -4,17 +4,26 @@ PODS:
 
 DEPENDENCIES:
   - AHDownloadButton
-  - SwiftAudioPlayer
+  - SwiftAudioPlayer (from `https://github.com/Kuama-IT/SwiftAudioPlayer.git`, branch `fix-ios-16-crash`)
 
 SPEC REPOS:
   trunk:
     - AHDownloadButton
-    - SwiftAudioPlayer
+
+EXTERNAL SOURCES:
+  SwiftAudioPlayer:
+    :branch: fix-ios-16-crash
+    :git: https://github.com/Kuama-IT/SwiftAudioPlayer.git
+
+CHECKOUT OPTIONS:
+  SwiftAudioPlayer:
+    :commit: 97a9bf69e41ff19c57be4893bcc8d9f31495e7b2
+    :git: https://github.com/Kuama-IT/SwiftAudioPlayer.git
 
 SPEC CHECKSUMS:
   AHDownloadButton: f0778a7e406b49a590c48b241f1ff8e8f1cc5ab4
   SwiftAudioPlayer: a546709faf47f3ab0cb59e41ba4432e6bb61db0a
 
-PODFILE CHECKSUM: e96868b5be6fab6970251a22b7e17cdaa7394fbd
+PODFILE CHECKSUM: b9c6c7e1f7817cd9e5c0b6383955d6b69407c118
 
 COCOAPODS: 1.12.0

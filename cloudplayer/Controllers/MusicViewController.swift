@@ -67,7 +67,7 @@ class MusicViewController: UIViewController{
                 downloadButton.progress = 0
                 print("Tapped download")
                 
-                if !SAPlayer.Downloader.isDownloaded(withRemoteUrl: remoteUrl,name:PlaybackPresenter.shared.currentTrack!.name){
+//                if !SAPlayer.Downloader.isDownloaded(withRemoteUrl: remoteUrl,name:PlaybackPresenter.shared.currentTrack!.name){
                     
                 
                 downloadButton.state = .pending
@@ -86,10 +86,10 @@ class MusicViewController: UIViewController{
                     print(result)
                     }
                     
-                }
-                else{
-                    downloadButton.state = .downloaded
-                }
+//                }
+//                e/lse{
+//                    downloadButton.state = .downloaded
+//                }
                 
 
             case .pending:

@@ -29,7 +29,7 @@ class UploadViewController: UIViewController, UIDocumentPickerDelegate {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        uploadButton.frame = CGRect(x: (view.width - 120) / 2, y: (view.height - 80) / 2, width: 120, height: 80)
+        uploadButton.frame = CGRect(x: (view.width - view.width/2) / 2, y: (view.height - 80) / 2, width: view.width/2, height: 80)
     }
     
     func setupSpinner() {

@@ -48,14 +48,13 @@ protocol AudioDataManagable {
     func seekStream(withRemoteURL url: AudioURL, toByteOffset offset: UInt64)
     func deleteStream(withRemoteURL url: AudioURL) 
     
-    func getPersistedUrl(withRemoteURL url: AudioURL, name:String) -> URL?
-    func startDownload(withRemoteURL url: AudioURL, name:String, completion: @escaping (URL, Error?) -> ())
+    func getPersistedUrl(withRemoteURL url: AudioURL) -> URL?
+    func startDownload(withRemoteURL url: AudioURL, name:String,completion: @escaping (URL, Error?) -> ())
     func cancelDownload(withRemoteURL url: AudioURL)
     func deleteDownload(withLocalURL url: URL)
 }
 
 class AudioDataManager: AudioDataManagable {
-    
     var allowCellular: Bool = true
     var downloadDirectory: FileManager.SearchPathDirectory = .documentDirectory
     
@@ -168,14 +167,12 @@ extension AudioDataManager {
 
 // MARK:- Download
 extension AudioDataManager {
-    func getPersistedUrl(withRemoteURL url: AudioURL, name:String) -> URL? {
-        return FileStorage.Audio.locate(name)
+    func getPersistedUrl(withRemoteURL url: AudioURL) -> URL? {
+        return FileStorage.Audio.locate(url.key)
     }
     
-    func startDownload(withRemoteURL url: AudioURL,name: String, completion: @escaping (URL, Error?) -> ()) {
-//        let key = url.key
+    func startDownload(withRemoteURL url: AudioURL, name:String,completion: @escaping (URL, Error?) -> ()) {
         let key = name
-//        let name = ID("gg")
         
         if let savedUrl = FileStorage.Audio.locate(key), FileStorage.Audio.isStored(key) {
             globalDownloadProgressCallback(key, 1.0)

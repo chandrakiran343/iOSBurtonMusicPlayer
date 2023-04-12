@@ -6,7 +6,7 @@ target 'cloudplayer' do
   use_frameworks!
 
   # Pods for cloudplayer
-pod "SwiftAudioPlayer"
+pod "SwiftAudioPlayer", :git => "https://github.com/Kuama-IT/SwiftAudioPlayer.git", :branch => "fix-ios-16-crash"
 pod "AHDownloadButton"
 
 end

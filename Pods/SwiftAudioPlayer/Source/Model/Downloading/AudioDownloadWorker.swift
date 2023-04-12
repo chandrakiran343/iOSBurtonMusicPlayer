@@ -258,7 +258,6 @@ extension AudioDownloadWorker: URLSessionDownloadDelegate {
             if download.task == downloadTask {
                 found = true
                 download.progress = Double(totalBytesWritten)/Double(totalBytesExpectedToWrite)
-
                 download.totalBytesExpected = totalBytesExpectedToWrite
                 if download.progress != 1.0 {
                     progressHandler(download.info.id, download.progress)

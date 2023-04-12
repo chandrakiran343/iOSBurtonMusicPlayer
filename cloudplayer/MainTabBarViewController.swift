@@ -13,6 +13,50 @@ import SwiftAudioPlayer
 
 
 class MainTabBarViewController: UITabBarController, UIAdaptivePresentationControllerDelegate {
+//    static var files: [Song] = []
+//    static var fileNames: [Song] = {
+//        let client = DropboxClientsManager.authorizedClient
+//        var rip : [Song] = []
+//        func listAudioFiles(path:String){
+//            client?.files.listFolder(path: path).response{ [`self` = MainTabBarViewController.self]response,error in
+//                if let response = response{
+//                    print(response)
+//                    for entry in response.entries{
+//                        
+//                        if(entry.name.hasSuffix("mp3") || entry.name.hasSuffix("m4a")){
+//                            DispatchQueue.global(qos: .background) .async {
+//                                client?.files.getTemporaryLink(path: entry.pathLower!).response{ response,error in
+//                                    if let link = response?.link{
+//                                        do{
+//                                            let url = URL(string: link )!
+//                                            var res: Bool = false
+//                                            for item in MainTabBarViewController.downloadedFiles{
+//                                                if (entry.name == item.name){
+//                                                    res = true
+//                                                }
+//                                            }
+//                                            
+//                                            let song = Song(name: entry.name, artist:"Unknown", albumname: nil,duration: 0.0 ,albumArt:nil,url:entry.pathLower ?? "/", downloadlink: url, downloaded: res)
+//                                            MainTabBarViewController.files.append(song)
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                    for folder in response.entries where folder is Files.FolderMetadata{
+//                        listAudioFiles(path: folder.pathLower!)
+//                    }
+//                }
+//            }
+//        }
+//                
+//                listAudioFiles(path: "")
+//                return rip
+//            
+//    }()
+    
+    
     
     @objc func logoutProcess(){
         print("pressed logout")

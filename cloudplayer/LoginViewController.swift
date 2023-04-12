@@ -14,7 +14,7 @@ class LoginViewController: UIViewController {
         return false
     }()
     
-    
+    private let backgroundLayer = CALayer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +29,19 @@ class LoginViewController: UIViewController {
         
 //        self.navigationItem.largeTitleDisplayMode = .always
 //
-        title = "Burton Music player"
+        self.setupUI()
+        self.startBackgroundAnimation()
+        let textLabel = UILabel(frame: CGRect(x: 0, y: view.height / 2, width: view.width, height: 80))
+        textLabel.text = "Burton Music player"
+        textLabel.textColor = .black
+        textLabel.font = UIFont.boldSystemFont(ofSize: 34)
+        textLabel.backgroundColor = .clear
+        textLabel.adjustsFontSizeToFitWidth = true
+        textLabel.textAlignment = .left
+        self.navigationItem.titleView = textLabel
+       
         
+        self.navigationItem.titleView = textLabel
         let button = UIButton()
         button.backgroundColor = .white
         button.setTitle("Sign In with DropBox", for: .normal)
@@ -41,10 +52,17 @@ class LoginViewController: UIViewController {
         button.addTarget(self, action: #selector(signIn), for: .touchUpInside)
         view.addSubview(button)
         
-        
-        // Do any additional setup after loading the view.
     }
     
+    private func setupUI() {
+            view.backgroundColor = .white
+            
+            // Add background layer
+            backgroundLayer.frame = view.bounds
+            view.layer.addSublayer(backgroundLayer)
+            
+            // Add other UI elements, such as text fields and buttons, as needed
+        }
     override func viewDidAppear(_ animated: Bool) {
         self.animated = true
     }
@@ -67,7 +85,28 @@ class LoginViewController: UIViewController {
         
     }
     
-    
+    private func startBackgroundAnimation() {
+            let gradientLayer = CAGradientLayer()
+            gradientLayer.colors = [
+                UIColor(red: 247/255, green: 155/255, blue: 56/255, alpha: 1).cgColor,
+                UIColor(red: 247/255, green: 93/255, blue: 89/255, alpha: 1).cgColor
+            ]
+            gradientLayer.locations = [0, 1]
+            gradientLayer.frame = backgroundLayer.bounds
+            
+            let animation = CABasicAnimation(keyPath: "colors")
+            animation.fromValue = gradientLayer.colors
+            animation.toValue = [
+                UIColor(red: 247/255, green: 93/255, blue: 89/255, alpha: 1).cgColor,
+                UIColor(red: 247/255, green: 155/255, blue: 56/255, alpha: 1).cgColor
+            ]
+            animation.duration = 3
+            animation.autoreverses = true
+            animation.repeatCount = .infinity
+            gradientLayer.add(animation, forKey: nil)
+            
+            backgroundLayer.addSublayer(gradientLayer)
+        }
     
     
     func myButtonInControllerPressed() {
